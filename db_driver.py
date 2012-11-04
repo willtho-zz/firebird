@@ -1,13 +1,19 @@
 """This is the database driver"""
 import sqlite3
 
+dbconn = None
+dbcur = None
+
 def connect(dbname):
     """Connect to the database"""
-    pass
+    global dbconn, dbcur
+    dbconn = sqlite3.connect( dbname )
+    dbcur = dbconn.cursor()
 
 def setup():
     """Set up the database"""
-    pass
+    dbcur.execute("CREATE TABLE inventory (id PRIMARY KEY, name unique, category text, quantity integer, price real, description text)")
+    dbcur.execute("CREATE TABLE users (id PRIMARY KEY, firstname text, lastname text, username unique, password text, email text, admin boolean)")
 
 def authenticate(username, password):
     """Match the username and password with those in the database.
