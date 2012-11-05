@@ -1,0 +1,52 @@
+a.dark {
+	color: #6a31bf;
+}
+
+a.light {
+	color: #c8a3e8;
+}
+
+div.bg-cols {
+	background-image: url("../img/bg-cols.png");
+}
+
+div.header {
+	height: 70px;
+	background-color: #3a0a5c;
+}
+
+div.outer {
+	background-color: #fafafa;
+	box-shadow: 0px 0px 14px #404040;
+	-moz-box-shadow: 0px 0px 14px #404040;
+	-webkit-box-shadow: 0px 0px 14px #404040;
+}
+
+div.padded {
+	padding: 1.5em;
+}
+
+div.relative {
+	position: relative;
+}
+
+h1.title {
+	margin-left: 20px;
+	color: #f0f0f0;
+}
+
+.align-right {
+	float: right;
+	clear: both;
+	margin-right: 8px;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.valign-bottom {
+	position: absolute;
+	bottom: 0px;
+	margin-bottom: 10px;
+}

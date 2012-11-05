@@ -1,0 +1,14 @@
+.header {
+	height: 70px;
+}
+
+.align-right {
+	float: right;
+	clear: both;
+}
+
+.valign-bottom {
+	position: absolute;
+	bottom: 0px;
+	margin-bottom: 5px;
+}
