@@ -44,15 +44,15 @@ function StoreViewModel() {
 	Sammy(function() {
 		this.get("#cart", function() {
 			self.category("");
-			self.screen("cart");
+			self.screen("cart.html");
 		});
 		this.get("#category/:category", function() {
 			self.category(this.params.category);
-			self.screen("shop");
+			self.screen("inventory.html");
 		});
 		this.get("", function() {
 			self.category("");
-			self.screen("shop");
+			self.screen("inventory.html");
 		});
 	}).run();
 }
