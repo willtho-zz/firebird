@@ -54,6 +54,7 @@ function StoreViewModel() {
 			self.category("");
 			self.screen("inventory.html");
 		});
+		this.put("", function() { return false; });
 	}).run();
 }
 
