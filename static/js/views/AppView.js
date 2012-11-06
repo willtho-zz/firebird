@@ -14,6 +14,7 @@ firebird.AppView = Backbone.View.extend({
 		firebird.cart.on("all", function() {
 			self.$cartItemCount.html(firebird.cart.getFormattedCount());
 		});
+		firebird.cart.trigger("change");
 	},
 
 	// navigation actions
