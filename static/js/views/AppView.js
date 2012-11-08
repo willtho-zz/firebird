@@ -10,6 +10,12 @@ firebird.AppView = Backbone.View.extend({
 		// cache HTML elements
 		self.$cartItemCount = self.$("#cartItemCount");
 		self.$categoryList = self.$("#categoryList");
+		self.$contentDiv = self.$("#contentDiv");
+
+		// initialize content views
+		this.views = {};
+		this.views.cart = new firebird.CartView();
+		this.views.shop = new firebird.InventoryView();
 
 		// update cart item count
 		firebird.cart.on("all", function() {
@@ -31,14 +37,17 @@ firebird.AppView = Backbone.View.extend({
 	// navigation actions
 	navigateAllCategories: function() {
 		this.setCategory("shop");
+		this.$contentDiv.html(this.views.shop.setCategory("all").render().el);
 	},
 
 	navigateCart: function() {
 		this.setCategory();
+		this.$contentDiv.html(this.views.cart.render().el);
 	},
 
 	navigateCategory: function(id) {
 		this.setCategory("shop-" + id);
+		this.$contentDiv.html(this.views.shop.setCategory(id).render().el);
 	},
 
 	// change the link for the given category to bold
