@@ -38,16 +38,19 @@ firebird.AppView = Backbone.View.extend({
 	navigateAllCategories: function() {
 		this.setCategory("shop");
 		this.$contentDiv.html(this.views.shop.setCategory("all").render().el);
+		document.title = "James' Magic Shop";
 	},
 
 	navigateCart: function() {
 		this.setCategory();
 		this.$contentDiv.html(this.views.cart.render().el);
+		document.title = "James' Magic Shop - Shopping Cart";
 	},
 
 	navigateCategory: function(id) {
 		this.setCategory("shop-" + id);
 		this.$contentDiv.html(this.views.shop.setCategory(id).render().el);
+		document.title = "James' Magic Shop - " + firebird.categories.get(id).get("name");
 	},
 
 	// change the link for the given category to bold
