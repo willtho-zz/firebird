@@ -13,13 +13,17 @@ firebird.InventoryView = Backbone.View.extend({
 	},
 
 	render: function() {
-		this.$el.html(this.inventoryTemplate({
-			category: this.category,
-			search: this.search,
+		var self = this;
+
+		self.$el.html(self.inventoryTemplate({
+			category: self.category,
+			search: self.search,
 			categories: firebird.categories
 		}));
-		this.delegateEvents();
-		return this;
+
+		// workaround to make sure that the #removeSearch link found is the new one
+		// todo: find a real solution
+		setTimeout(function() { self.delegateEvents(); }, 10);
 	},
 
 	removeSearch: function() {
