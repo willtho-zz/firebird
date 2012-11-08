@@ -49,6 +49,13 @@ h1.title {
 	font-weight: bold;
 }
 
+.info {
+	background: #d1bfec;
+	color: #6a31bf;
+	border-color: #a180d3;
+	margin-right: 10px;
+}
+
 .valign-bottom {
 	position: absolute;
 	bottom: 0px;
