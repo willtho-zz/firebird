@@ -12,10 +12,13 @@ firebird.AppView = Backbone.View.extend({
 		self.$categoryList = self.$("#categoryList");
 		self.$contentDiv = self.$("#contentDiv");
 
+		// cache templates
+		self.categoryListTemplate = _.template($("#categoryListTemplate").html());
+
 		// initialize content views
-		this.views = {};
-		this.views.cart = new firebird.CartView();
-		this.views.shop = new firebird.InventoryView();
+		self.views = {};
+		self.views.cart = new firebird.CartView();
+		self.views.shop = new firebird.InventoryView();
 
 		// update cart item count
 		firebird.cart.on("all", function() {
@@ -25,12 +28,15 @@ firebird.AppView = Backbone.View.extend({
 
 		// update category list
 		firebird.categories.on("add remove reset", function() {
-			self.$categoryList.html("<a id='shop' href='#shop' class='dark'>All Items</a><br>");
-			_.each(firebird.categories.models, function(category) {
-				var id = category.get("id");
-				self.$categoryList.append("<br><a id='shop-" + id + "' href='#shop/" + id +
-					"' class='dark'>" + category.get("name") + "</a>");
-			});
+			self.$categoryList.html(self.categoryListTemplate({
+				categories: firebird.categories.models
+			}));
+
+			// if the inventory is open, highlight the right link
+			var category = self.views.shop.category;
+
+			if (location.hash.substring(0, 5) == "#shop")
+				self.setCategory(category ? "shop-" + category : "shop");
 		});
 	},
 

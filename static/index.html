@@ -43,6 +43,15 @@
 				<div id="contentDiv" class="span-18 last"></div>
 			</div>
 		</div>
+		<script id="categoryListTemplate" type="text/template">
+			<a id="shop" href="#shop" class="dark">All Items</a><br>
+			<% _.each(categories, function(category) { %>
+				<br>
+				<a id="shop-<%= category.id %>" href="#shop/<%= category.id %>" class="dark">
+					<%= category.get('name') %>
+				</a>
+			<% }); %>
+		</script>
 		<script type="text/javascript" src="js/models/CartItem.js"></script>
 		<script type="text/javascript" src="js/models/Category.js"></script>
 		<script type="text/javascript" src="js/models/Item.js"></script>
