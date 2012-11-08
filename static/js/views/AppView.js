@@ -56,7 +56,8 @@ firebird.AppView = Backbone.View.extend({
 	// navigation actions
 	navigateAllCategories: function() {
 		this.setCategory("shop");
-		this.$contentDiv.html(this.views.shop.setCategory("all").el);
+		this.views.shop.setCategory("all");
+		this.$contentDiv.html(this.views.shop.el);
 		document.title = "James' Magic Shop";
 	},
 
