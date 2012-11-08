@@ -42,12 +42,14 @@ firebird.AppView = Backbone.View.extend({
 
 		// set up the search event handler
 		self.$("#searchForm").submit(function(e) {
+			e.preventDefault();
+
 			// make sure the input isn't empty
 			if (!self.$searchText.val())
 				return;
+
 			self.views.shop.setSearch(self.$searchText.val());
 			self.$searchText.val("");
-			e.preventDefault();
 		});
 	},
 
