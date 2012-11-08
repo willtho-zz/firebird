@@ -56,13 +56,24 @@
 			firebird.categories = new firebird.CategoryList();
 			firebird.inventory = new firebird.Inventory();
 			firebird.app = new firebird.AppView();
-			firebird.router = new firebird.Router();
 
 			// load data from server
-			firebird.categories.fetch();
-			firebird.inventory.fetch();
+			//firebird.categories.fetch();
+			//firebird.inventory.fetch();
 
-			// navigate to the main inventory unless the url already has a hash
+			// test data
+			firebird.categories.reset([
+				new firebird.Category({ id: 1, name: "Books" }),
+				new firebird.Category({ id: 2, name: "Card Magic" }),
+				new firebird.Category({ id: 3, name: "Coin Magic" }),
+				new firebird.Category({ id: 4, name: "Juggling" }),
+				new firebird.Category({ id: 5, name: "Rope Magic" })
+			]);
+
+			// start routing urls and navigate to the main inventory unless the url
+			// already has a hash
+			firebird.router = new firebird.Router();
+
 			if (!location.hash)
 				location.hash = "shop";
 		</script>
