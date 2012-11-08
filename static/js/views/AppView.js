@@ -50,7 +50,7 @@ firebird.AppView = Backbone.View.extend({
 
 			// if the cart is open, navigate to inventory view
 			if (location.hash.substring(0, 5) != "#shop")
-				self.navigateAllCategories();
+				firebird.router.navigate("shop", { trigger: true });
 
 			self.views.shop.setSearch(self.$searchText.val());
 			self.$searchText.val("");
