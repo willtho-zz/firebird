@@ -13,7 +13,11 @@ firebird.InventoryView = Backbone.View.extend({
 	},
 
 	render: function() {
-		this.$el.html(this.inventoryTemplate({ category: this.category, search: this.search }));
+		this.$el.html(this.inventoryTemplate({
+			category: this.category,
+			search: this.search,
+			categories: firebird.categories
+		}));
 		this.delegateEvents();
 		return this;
 	},

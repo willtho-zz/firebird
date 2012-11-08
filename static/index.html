@@ -39,7 +39,6 @@
 				<div class="span-6">
 					<div id="categoryList" class="padded"></div>
 				</div>
-				<div class="span-18 last"><br></div>
 				<div id="contentDiv" class="span-18 last"></div>
 			</div>
 		</div>
@@ -53,13 +52,15 @@
 			<% }); %>
 		</script>
 		<script id="inventoryTemplate" type="text/template">
+			<h2 class="title">
+				<% if (category) { %>
+					<%= categories.get(category).get('name') %>
+				<% } else { %>
+					All Items
+				<% } %>
+			</h2>
 			<% if (search) { %>
 				<div class="info">Using filter "<%= search %>" <a id="removeSearch" class="dark">remove</a></div>
-			<% } %>
-			<% if (category) { %>
-				Viewing category <%= category %>
-			<% } else { %>
-				Viewing all items
 			<% } %>
 		</script>
 		<script type="text/javascript" src="js/models/CartItem.js"></script>

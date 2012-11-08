@@ -39,6 +39,12 @@ h1.title {
 	color: #f0f0f0;
 }
 
+h2.title {
+	margin-top: 10px;
+	margin-bottom: 5px;
+	margin-left: 5px;
+}
+
 .align-right {
 	float: right;
 	clear: both;
