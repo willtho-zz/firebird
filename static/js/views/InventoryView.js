@@ -28,7 +28,7 @@ firebird.InventoryView = Backbone.View.extend({
 
 	setCategory: function(id) {
 		this.category = id == "all" ? 0 : id;
-		return this;
+		this.render();
 	},
 
 	setSearch: function(search) {

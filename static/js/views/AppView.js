@@ -56,7 +56,7 @@ firebird.AppView = Backbone.View.extend({
 	// navigation actions
 	navigateAllCategories: function() {
 		this.setCategory("shop");
-		this.$contentDiv.html(this.views.shop.setCategory("all").render().el);
+		this.$contentDiv.html(this.views.shop.setCategory("all").el);
 		document.title = "James' Magic Shop";
 	},
 
@@ -68,7 +68,8 @@ firebird.AppView = Backbone.View.extend({
 
 	navigateCategory: function(id) {
 		this.setCategory("shop-" + id);
-		this.$contentDiv.html(this.views.shop.setCategory(id).render().el);
+		this.views.shop.setCategory(id);
+		this.$contentDiv.html(this.views.shop.el);
 		document.title = "James' Magic Shop - " + firebird.categories.get(id).get("name");
 	},
 
