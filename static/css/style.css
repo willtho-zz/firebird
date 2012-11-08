@@ -6,6 +6,10 @@ a.light {
 	color: #c8a3e8;
 }
 
+a:hover {
+	cursor: pointer;
+}
+
 div.bg-cols {
 	background-image: url("../img/bg-cols.png");
 }

@@ -11,6 +11,7 @@ firebird.AppView = Backbone.View.extend({
 		self.$cartItemCount = self.$("#cartItemCount");
 		self.$categoryList = self.$("#categoryList");
 		self.$contentDiv = self.$("#contentDiv");
+		self.$searchText = self.$("#searchText");
 
 		// cache templates
 		self.categoryListTemplate = _.template($("#categoryListTemplate").html());
@@ -37,6 +38,13 @@ firebird.AppView = Backbone.View.extend({
 
 			if (location.hash.substring(0, 5) == "#shop")
 				self.setCategory(category ? "shop-" + category : "shop");
+		});
+
+		// set up the search event handler
+		self.$("#searchForm").submit(function(e) {
+			self.views.shop.setSearch(self.$searchText.val());
+			self.$searchText.val("");
+			e.preventDefault();
 		});
 	},
 

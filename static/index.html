@@ -52,6 +52,16 @@
 				</a>
 			<% }); %>
 		</script>
+		<script id="inventoryTemplate" type="text/template">
+			<% if (search) { %>
+				<div class="info">Using filter "<%= search %>" <a id="removeSearch">remove</a></div>
+			<% } %>
+			<% if (category) { %>
+				Viewing category <%= category %>
+			<% } else { %>
+				Viewing all items
+			<% } %>
+		</script>
 		<script type="text/javascript" src="js/models/CartItem.js"></script>
 		<script type="text/javascript" src="js/models/Category.js"></script>
 		<script type="text/javascript" src="js/models/Item.js"></script>
