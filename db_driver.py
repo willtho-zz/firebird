@@ -38,4 +38,11 @@ def get_item(uid):
 
 def get_items(category):
     """Get the items from category"""
-    pass
+    return [{"id": 1, "name":"item1", "desc":"item one!", "category":1,\
+        "price": 1.2, "salePrice": 1.2, "quantity": 4}]
+
+def get_categories():
+    """Return a list of categories"""
+    return [{"id":1, "name": "test1"}, {"id":2, "name":"test2"}]
+
+
