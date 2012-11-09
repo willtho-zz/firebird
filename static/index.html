@@ -83,17 +83,8 @@
 			firebird.app = new firebird.AppView();
 
 			// load data from server
-			//firebird.categories.fetch();
-			//firebird.inventory.fetch();
-
-			// test data
-			firebird.categories.reset([
-				new firebird.Category({ id: 1, name: "Books" }),
-				new firebird.Category({ id: 2, name: "Card Magic" }),
-				new firebird.Category({ id: 3, name: "Coin Magic" }),
-				new firebird.Category({ id: 4, name: "Juggling" }),
-				new firebird.Category({ id: 5, name: "Rope Magic" })
-			]);
+			firebird.categories.fetch();
+			firebird.inventory.fetch();
 
 			// start routing urls and navigate to the main inventory unless the url
 			// already has a hash
