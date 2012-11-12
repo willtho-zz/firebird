@@ -83,16 +83,31 @@ firebird.InventoryView = Backbone.View.extend({
 		var items = _.first(_.rest(self.items, self.page * 12), 12);
 
 		// display the items
-		var $itemListItems = self.$("#itemListItems");
+		var $itemListItems = self.$("#itemListItems"), $row = $("<div class='span-18 last'></div>"), cols = 0;
 		$itemListItems.empty();
 
 		_.each(items, function(item) {
+			var priceHTML = item.price.toFixed(2);
+
+			if (item.price != item.salePrice)
+				priceHTML = "<strike>" + priceHTML + "</strike><br><span class='sale'>$" + item.salePrice + "</span>";
+
 			var $div = $("<div class='span-4'><div class='item-div'></div></div>");
 			$div.children().append("<a class='dark'><b>" + item.name + "</b></a>")
 			    .append("<img class='item-image' src='img/item" + item.id + ".png'>")
-			    .append("<div style='text-align: center;'><b>$" + item.price.toFixed(2) + "</b></div>");
-			$itemListItems.append($div);
+			    .append("<div style='text-align: center;'><b>$" + priceHTML + "</b></div>");
+			$row.append($div);
+
+			// add the row and start a new one
+			if (++cols == 4) {
+				$itemListItems.append($row);
+				cols = 0;
+				$row = $("<div class='span-18 last'></div>");
+			}
 		});
+
+		if (cols != 0)
+			$itemListItems.append($row);
 	},
 
 	removeSearch: function() {

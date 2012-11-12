@@ -58,6 +58,10 @@ img.item-image {
 	height: 80px;
 }
 
+span.sale {
+	color: red;
+}
+
 .align-right {
 	float: right;
 	clear: both;
