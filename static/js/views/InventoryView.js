@@ -87,7 +87,11 @@ firebird.InventoryView = Backbone.View.extend({
 		$itemListItems.empty();
 
 		_.each(items, function(item) {
-			$itemListItems.append("<b>" + item.name + "</b> - " + item.desc + "<br>");
+			var $div = $("<div class='span-4'><div class='item-div'></div></div>");
+			$div.children().append("<a class='dark'><b>" + item.name + "</b></a>")
+			    .append("<img class='item-image' src='img/item" + item.id + ".png'>")
+			    .append("<div style='text-align: center;'><b>$" + item.price.toFixed(2) + "</b></div>");
+			$itemListItems.append($div);
 		});
 	},
 
