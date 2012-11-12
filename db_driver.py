@@ -1,48 +1,41 @@
-"""This is the database driver"""
 import sqlite3
 
-dbconn = None
-dbcur = None
+class database(object):
+    
+    def __init__(self, dbpath):
+        self.dbfile = dbpath
 
-def connect(dbname):
-    """Connect to the database"""
-    global dbconn, dbcur
-    dbconn = sqlite3.connect( dbname )
-    dbcur = dbconn.cursor()
+    def connect(self):
+        self.conn = sqlite3.connect(self.dbfile)
+        return self.conn.cursor()
 
-def setup():
-    """Set up the database"""
-    dbcur.execute("CREATE TABLE inventory (id PRIMARY KEY, name unique, category text, quantity integer, price real, description text)")
-    dbcur.execute("CREATE TABLE users (id PRIMARY KEY, firstname text, lastname text, username unique, password text, email text, admin boolean)")
+    def disconnect(self):
+        self.conn.close()
 
-def authenticate(username, password):
-    """Match the username and password with those in the database.
-    Return a boolean for True or False"""
-    pass
+    def setup(self):
+        """Setup the database"""
+        cursor = self.connect()
+        cursor.execute("CREATE TABLE inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, name unique, category text, quantity integer, price real, salePrice real, description text)")
+        cursor.execute("CREATE TABLE users (id PRIMARY KEY, firstname text, lastname text, username unique, password text, email text, admin boolean)")
+        cursor.close()
+        
+    def authenticate(self, username, password):
+        pass
 
-def add(item):
-    """Add the item to the database"""
-    pass
+    def add(self, item):
+        pass
 
-def remove(uid):
-    """Remove the item with uid from the database"""
-    pass
+    def remove(self, uid):
+        pass
 
-def edit(item):
-    """Update the item in the database"""
-    pass
+    def edit(self, item):
+        pass
 
-def get_item(uid):
-    """Get the item with uid"""
-    pass
+    def get_item(self, uid):
+        pass
 
-def get_items(category):
-    """Get the items from category"""
-    return [{"id": 1, "name":"item1", "desc":"item one!", "category":1,\
-        "price": 1.2, "salePrice": 1.2, "quantity": 4}]
+    def get_items(self, category=None):
+        pass
 
-def get_categories():
-    """Return a list of categories"""
-    return [{"id":1, "name": "test1"}, {"id":2, "name":"test2"}]
-
-
+    def get_categories(self):
+        return [{"id":1, "name": "test1"}, {"id":2, "name":"test2"}]
