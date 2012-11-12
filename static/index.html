@@ -83,15 +83,15 @@
 			firebird.app = new firebird.AppView();
 
 			// load data from server
-			firebird.categories.fetch();
 			firebird.inventory.fetch();
+			firebird.categories.fetch({ success: function() {
+				// start routing urls and navigate to the main inventory unless
+				// the url already has a hash
+				firebird.router = new firebird.Router();
 
-			// start routing urls and navigate to the main inventory unless the url
-			// already has a hash
-			firebird.router = new firebird.Router();
-
-			if (!location.hash)
-				location.hash = "shop";
+				if (!location.hash)
+					location.hash = "shop";
+			} });
 		</script>
 	</body>
 </html>
