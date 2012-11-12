@@ -60,8 +60,14 @@
 				<% } %>
 			</h2>
 			<% if (search) { %>
-				<div class="info">Using filter "<%= search %>" <a id="removeSearch" class="dark">remove</a></div>
+				<div class="info">
+					Using filter "<%= search %>" <a id="removeSearch" class="dark">remove</a>
+				</div>
 			<% } %>
+			<div id="itemList"></div>
+		</script>
+		<script id="itemListTemplate" type="text/template">
+			items go here
 		</script>
 		<script type="text/javascript" src="js/models/CartItem.js"></script>
 		<script type="text/javascript" src="js/models/Category.js"></script>

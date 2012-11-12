@@ -9,7 +9,11 @@ firebird.InventoryView = Backbone.View.extend({
 	},
 
 	initialize: function() {
+		this.page = 0;
+
+		// cache templates
 		this.inventoryTemplate = _.template($("#inventoryTemplate").html());
+		this.itemListTemplate = _.template($("#itemListTemplate").html());
 	},
 
 	render: function() {
@@ -21,9 +25,16 @@ firebird.InventoryView = Backbone.View.extend({
 			categories: firebird.categories
 		}));
 
+		self.page = 0;
+		self.renderItemList();
+
 		// workaround to make sure that the #removeSearch link found is the new one
 		// todo: find a real solution
 		setTimeout(function() { self.delegateEvents(); }, 10);
+	},
+
+	renderItemList: function() {
+		this.$("#itemList").html(this.itemListTemplate({}));
 	},
 
 	removeSearch: function() {
