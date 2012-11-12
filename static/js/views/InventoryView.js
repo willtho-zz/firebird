@@ -90,7 +90,8 @@ firebird.InventoryView = Backbone.View.extend({
 			var priceHTML = item.price.toFixed(2);
 
 			if (item.price != item.salePrice)
-				priceHTML = "<strike>" + priceHTML + "</strike><br><span class='sale'>$" + item.salePrice + "</span>";
+				priceHTML = "<strike>" + priceHTML + "</strike><br>" +
+				            "<span class='sale'>$" + item.salePrice.toFixed(2) + "</span>";
 
 			var $div = $("<div class='span-4'><div class='item-div'></div></div>");
 			$div.children().append("<a class='dark'><b>" + item.name + "</b></a>")
