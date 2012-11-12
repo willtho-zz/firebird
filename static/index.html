@@ -67,7 +67,14 @@
 			<div id="itemList"></div>
 		</script>
 		<script id="itemListTemplate" type="text/template">
-			items go here
+			<div id="itemListItems"></div>
+			<% if (pages > 1) { %>
+				<div class="span-16 last" style="text-align: center; margin-bottom: 10px;">
+					<% _.each(_.range(1, pages + 1), function(page) { %>
+						<a class="navPage dark"><%= page %></a>
+					<% }); %>
+				</div>
+			<% } %>
 		</script>
 		<script type="text/javascript" src="js/models/CartItem.js"></script>
 		<script type="text/javascript" src="js/models/Category.js"></script>
@@ -88,8 +95,24 @@
 			// instantiate the views
 			firebird.app = new firebird.AppView();
 
+			// inventory test data
+			for (var i = 1; i < 100; ++i) {
+				var price = Math.floor(Math.random() * 10000) / 100;
+				var salePrice = Math.floor(price * Math.random() * 100) / 100;
+
+				firebird.inventory.add(new firebird.Item({
+					id: i,
+					name: "Item #" + i,
+					desc: "Item #" + i + " description",
+					category: Math.random() < 0.5 ? 1 : 2,
+					price: price,
+					salePrice: Math.random() < 0.8 ? price : salePrice,
+					quantity: Math.ceil(Math.random() * 10)
+				}));
+			}
+
 			// load data from server
-			firebird.inventory.fetch();
+			//firebird.inventory.fetch();
 			firebird.categories.fetch({ success: function() {
 				// start routing urls and navigate to the main inventory unless
 				// the url already has a hash

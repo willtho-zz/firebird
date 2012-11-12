@@ -10,6 +10,7 @@ firebird.InventoryView = Backbone.View.extend({
 
 	initialize: function() {
 		this.page = 0;
+		this.items = [];
 
 		// cache templates
 		this.inventoryTemplate = _.template($("#inventoryTemplate").html());
@@ -34,7 +35,46 @@ firebird.InventoryView = Backbone.View.extend({
 	},
 
 	renderItemList: function() {
-		this.$("#itemList").html(this.itemListTemplate({}));
+		var self = this;
+
+		// filter the inventory based on the selected category and search criteria
+		self.items = _.pluck(firebird.inventory.models, "attributes");
+
+		if (self.category != 0)
+			self.items = _.where(self.items, { category: parseInt(this.category) });
+
+		// set up the page links
+		var pages = Math.ceil(self.items.length / 12);
+		self.$("#itemList").html(self.itemListTemplate({ pages: pages }));
+
+		setTimeout(function() {
+			self.$(".navPage").click(function() {
+				self.page = parseInt($(this).html()) - 1;
+				self.populateItemList();
+			});
+
+			self.populateItemList();
+		}, 10);
+	},
+
+	populateItemList: function() {
+		var self = this;
+
+		// set the link for the current page to bold
+		self.$(".navPage").removeClass("bold").filter(function() {
+			return parseInt($(this).html()) == self.page + 1;
+		}).addClass("bold");
+
+		// get the items on the current page
+		var items = _.first(_.rest(self.items, self.page * 12), 12);
+
+		// display the items
+		var $itemListItems = self.$("#itemListItems");
+		$itemListItems.empty();
+
+		_.each(items, function(item) {
+			$itemListItems.append("<b>" + item.name + "</b> - " + item.desc + "<br>");
+		});
 	},
 
 	removeSearch: function() {
