@@ -43,6 +43,20 @@ firebird.InventoryView = Backbone.View.extend({
 		if (self.category != 0)
 			self.items = _.where(self.items, { category: parseInt(this.category) });
 
+		if (self.search) {
+			// split the query into words at the spaces
+			var search = self.search.toLowerCase().split(" ");
+
+			self.items = _.filter(self.items, function(item) {
+				// return items where each word in the query is found in either
+				// the name or the description
+				return _.all(search, function(word) {
+					return item.name.toLowerCase().search(word) > -1 ||
+					       item.desc.toLowerCase().search(word) > -1;
+				});
+			});
+		}
+
 		// set up the page links
 		var pages = Math.ceil(self.items.length / 12);
 		self.$("#itemList").html(self.itemListTemplate({ pages: pages }));
