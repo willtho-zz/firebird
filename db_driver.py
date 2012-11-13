@@ -50,7 +50,8 @@ class database(object):
         if len( tmp ) == 0:
             return None
         else:
-           return tmp[0]
+            tmp = tmp[0]
+            return {"id": tmp[0], "name": tmp[1], "category": tmp[2], "quantity":tmp[3], "price": tmp[4], "salePrice": tmp[5], "description": tmp[6]}
 
 
     def get_items(self, category=None):
@@ -62,6 +63,7 @@ class database(object):
             tmp = cursor.execute( "SELECT * FROM inventory where category = {}".format( category ) )
         tmp = tmp.fetchall()
         cursor.close()
+        tmp = [{"id": x[0], "name": x[1], "category": x[2], "quantity":x[3], "price": x[4], "salePrice": x[5], "description": x[6]} for x in tmp]
         return tmp
 
     def get_categories(self):
