@@ -65,4 +65,11 @@ class database(object):
         return tmp
 
     def get_categories(self):
-        return [{"id":1, "name": "test1"}, {"id":2, "name":"test2"}]
+        """Return dictionary of category uid and name"""
+        cursor = self.connect()
+        res = list()
+        tmp = cursor.execute( "SELECT * from categories" )
+        tmp = tmp.fetchall()
+        for x in tmp:
+            res.append( {"id": x[0], "name": x[1]} )
+        return res
