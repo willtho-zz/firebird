@@ -1,9 +1,14 @@
 from flask import Flask, url_for, redirect, jsonify
 import db_driver
+import os
 app = Flask(__name__)
 
-db = db_driver.database('test.db')
 
+db = db_driver.database('test.db')
+#replace with code to make sure the schemas match
+if not os.path.exists( 'test.db' ):
+    db.setup()
+    
 @app.route("/favicon.ico")
 def icon():
     """Return a redirect to the favicon"""
