@@ -4,6 +4,7 @@ firebird.Router = Backbone.Router.extend({
 
 	routes: {
 		"cart": "navigateCart",
+		"item/:id": "navigateItem",
 		"shop": "navigateAllCategories",
 		"shop/:id": "navigateCategory"
 	},
@@ -24,6 +25,10 @@ firebird.Router = Backbone.Router.extend({
 
 	navigateCategory: function(id) {
 		firebird.app.navigateCategory(id);
+	},
+
+	navigateItem: function(id) {
+		firebird.app.navigateItem(id);
 	}
 
 });

@@ -20,6 +20,7 @@ firebird.AppView = Backbone.View.extend({
 		// initialize content views
 		self.views = {};
 		self.views.cart = new firebird.CartView();
+		self.views.item = new firebird.ItemView();
 		self.views.shop = new firebird.InventoryView();
 
 		// update cart item count
@@ -78,6 +79,14 @@ firebird.AppView = Backbone.View.extend({
 		this.$contentDiv.html(this.views.shop.el);
 		document.title = "James' Magic Shop - " +
 		                 firebird.categories.get(id).get("name");
+	},
+
+	navigateItem: function(id) {
+		this.setCategory();
+		this.views.item.setItem(firebird.inventory.get(id));
+		this.$contentDiv.html(this.views.item.render().el);
+		document.title = "James' Magic Shop - " +
+		                 firebird.inventory.get(id).get("name");
 	},
 
 	// change the link for the given category to bold

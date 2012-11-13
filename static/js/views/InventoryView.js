@@ -100,8 +100,12 @@ firebird.InventoryView = Backbone.View.extend({
 
 			var $div =
 				$("<div class='span-4'><div class='item-div'></div></div>");
-			$div.children().append("<a class='dark'><b>" + name + "</b></a>")
-			    .append("<img class='item-image' src='img/item" + id + ".png'>")
+			$div.children()
+				.append("<a class='dark itemLink' data-id='" + id + "'><b>" +
+				        name + "</b></a>")
+			    .append("<a data-id='" + id +
+				        "'><img class='item-image' src='img/item" + id +
+				        ".png'></a>")
 			    .append("<div style='text-align: center;'><b>$" + price +
 				        "</b></div>");
 			$row.append($div);
@@ -121,6 +125,13 @@ firebird.InventoryView = Backbone.View.extend({
 			$itemListItems.html("<i>Search returned no results.</i>")
 			              .css("text-align", "center")
 			              .css("margin-bottom", "12px");
+
+		// set up handler for item links
+		$itemListItems.find(".itemLink").add("img").click(function() {
+			// get the id stored in the element
+			var id = $(this).data("id");
+			firebird.router.navigate("item/" + id, { trigger: true });
+		});
 	},
 
 	removeSearch: function() {
