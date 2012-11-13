@@ -14,13 +14,16 @@ def icon():
     """Return a redirect to the favicon"""
     return redirect( url_for( "static", filename="favicon.ico" ) )
 
-@app.route("/api/categories")
+@app.route("/api/categories", methods=['GET', 'POST'])
 def get_categories():
     """Return a list of categories"""
-    return '[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']'
+    if request.method == 'GET':
+        return '[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']'
+    elif request.method == 'POST':
+        pass
 
-@app.route("/api/inventory/<uid>", methods=['GET', 'POST', 'DELETE'])
-@app.route("/api/inventory")
+@app.route("/api/inventory/<uid>", methods=['GET', 'PUT', 'DELETE'])
+@app.route("/api/inventory", methods=['GET', 'POST'])
 def get_items(uid=None): 
     """Return a list of items"""
     if uid == None: 
@@ -28,8 +31,12 @@ def get_items(uid=None):
     else:
         if request.method == 'DELETE':
             db.remove( uid )
-        else:
+        elif request.method == 'PUT':
+            pass
+        elif request.method == 'GET':
             return jsonify( db.get_item( uid ) )
+        else:
+            pass
 
 @app.route("/")
 def index():

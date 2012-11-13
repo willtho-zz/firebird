@@ -75,3 +75,11 @@ class database(object):
         for x in tmp:
             res.append( {"id": x[0], "name": x[1]} )
         return res
+
+    def add_category(self, category):
+        """add a new category"""
+        cursor = self.connect()
+        cursor.execute( "INSERT INTO categories(name) VALUES ('{}')".format( category ))
+        cursor.close()
+        self.conn.commit()
+
