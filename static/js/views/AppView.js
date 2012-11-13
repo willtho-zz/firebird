@@ -35,6 +35,11 @@ firebird.AppView = Backbone.View.extend({
 				categories: firebird.categories.models
 			}));
 
+			// remove extra spaces from link contents
+			self.$categoryList.find("a").each(function() {
+				$(this).html($(this).html().trim());
+			});
+
 			// if the inventory is open, highlight the right link
 			var category = self.views.shop.category;
 
