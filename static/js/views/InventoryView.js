@@ -109,6 +109,10 @@ firebird.InventoryView = Backbone.View.extend({
 
 		if (cols != 0)
 			$itemListItems.append($row);
+
+		if (items.length == 0)
+			$itemListItems.html("<i>Search returned no results.</i>")
+			              .css({ "text-align": "center", "margin-bottom": "12px" });
 	},
 
 	removeSearch: function() {
