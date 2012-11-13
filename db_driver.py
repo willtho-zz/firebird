@@ -35,15 +35,21 @@ class database(object):
         self.conn.commit()
 
     def edit(self, item):
-        pass
+        cursor = self.connect()
+        cursor.execute( "UPDATE inventory SET name = '{}', category = '{}', quantity = {}, price = {}, salePrice = {}, description = '{}' WHERE id = {}".format( item['name'], item['category'], item['quantity'], item['price'], item['salePrice'], item['description'], item['uid'] ) )
+        cursor.close()
+        self.conn.commit()
 
     def get_item(self, uid):
         cursor = self.connect()
         tmp = cursor.execute( "Select * from inventory where id = {}".format( uid ) )
-        cursor.close()
         self.conn.commit()
-        tmp = tmp.fetchall()[0]
-        return tmp
+        tmp = tmp.fetchall()
+        cursor.close()
+        if len( tmp ) == 0:
+            return None
+        else:
+           return tmp[0]
 
 
     def get_items(self, category=None):
@@ -52,9 +58,10 @@ class database(object):
         if category == None:
             tmp = cursor.execute( "SELECT * FROM inventory" )
         else:
-            tmp = cursor.execute( "SELECT * FROM inventory where category = {}".format( category ) )
+            tmp = cursor.execute( "SELECT * FROM inventory where category = '{}'".format( category ) )
+        tmp = tmp.fetchall()
         cursor.close()
-        return tmp.fetchall()
+        return tmp
 
     def get_categories(self):
         return [{"id":1, "name": "test1"}, {"id":2, "name":"test2"}]
