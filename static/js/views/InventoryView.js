@@ -33,6 +33,8 @@ firebird.InventoryView = Backbone.View.extend({
 		// one
 		// todo: find a real solution
 		setTimeout(function() { self.delegateEvents(); }, 10);
+
+		return this;
 	},
 
 	renderItemList: function() {
@@ -136,16 +138,15 @@ firebird.InventoryView = Backbone.View.extend({
 
 	removeSearch: function() {
 		this.setSearch("");
+		this.render();
 	},
 
 	setCategory: function(id) {
 		this.category = id == "all" ? 0 : id;
-		this.render();
 	},
 
 	setSearch: function(search) {
 		this.search = search;
-		this.render();
 	}
 
 });

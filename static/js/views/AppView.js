@@ -55,6 +55,7 @@ firebird.AppView = Backbone.View.extend({
 				firebird.router.navigate("shop", { trigger: true });
 
 			self.views.shop.setSearch(self.$searchText.val());
+			self.views.shop.render();
 			self.$searchText.val("");
 		});
 	},
@@ -63,7 +64,7 @@ firebird.AppView = Backbone.View.extend({
 	navigateAllCategories: function() {
 		this.setCategory("shop");
 		this.views.shop.setCategory("all");
-		this.$contentDiv.html(this.views.shop.el);
+		this.$contentDiv.html(this.views.shop.render().el);
 		document.title = "James' Magic Shop";
 	},
 
@@ -76,7 +77,7 @@ firebird.AppView = Backbone.View.extend({
 	navigateCategory: function(id) {
 		this.setCategory("shop-" + id);
 		this.views.shop.setCategory(id);
-		this.$contentDiv.html(this.views.shop.el);
+		this.$contentDiv.html(this.views.shop.render().el);
 		document.title = "James' Magic Shop - " +
 		                 firebird.categories.get(id).get("name");
 	},
