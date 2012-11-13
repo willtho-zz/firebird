@@ -14,7 +14,8 @@ firebird.AppView = Backbone.View.extend({
 		self.$searchText = self.$("#searchText");
 
 		// cache templates
-		self.categoryListTemplate = _.template($("#categoryListTemplate").html());
+		self.categoryListTemplate =
+			_.template($("#categoryListTemplate").html());
 
 		// initialize content views
 		self.views = {};
@@ -75,12 +76,14 @@ firebird.AppView = Backbone.View.extend({
 		this.setCategory("shop-" + id);
 		this.views.shop.setCategory(id);
 		this.$contentDiv.html(this.views.shop.el);
-		document.title = "James' Magic Shop - " + firebird.categories.get(id).get("name");
+		document.title = "James' Magic Shop - " +
+		                 firebird.categories.get(id).get("name");
 	},
 
 	// change the link for the given category to bold
 	setCategory: function(id) {
-		this.$categoryList.find("a").removeClass("bold").filter("#" + id).addClass("bold");
+		this.$categoryList.find("a").removeClass("bold").filter("#" + id)
+		    .addClass("bold");
 	}
 
 });

@@ -28,7 +28,8 @@
 						</div>
 						<div class="align-right">
 							<form id="searchForm">
-								<input id="searchText" type="text" placeholder="Search">
+								<input id="searchText" type="text"
+								       placeholder="Search">
 								<input type="submit" value="Go">
 							</form>
 						</div>
@@ -46,7 +47,8 @@
 			<a id="shop" href="#shop" class="dark">All Items</a><br>
 			<% _.each(categories, function(category) { %>
 				<br>
-				<a id="shop-<%= category.id %>" href="#shop/<%= category.id %>" class="dark">
+				<a id="shop-<%= category.id %>" href="#shop/<%= category.id %>"
+				    class="dark">
 					<%= category.get('name') %>
 				</a>
 			<% }); %>
@@ -61,7 +63,8 @@
 			</h2>
 			<% if (search) { %>
 				<div class="info">
-					Using filter "<%= search %>" <a id="removeSearch" class="dark">remove</a>
+					Using filter "<%= search %>"
+					<a id="removeSearch" class="dark">remove</a>
 				</div>
 			<% } %>
 			<div id="itemList"></div>
@@ -69,7 +72,8 @@
 		<script id="itemListTemplate" type="text/template">
 			<div id="itemListItems"></div>
 			<% if (pages > 1) { %>
-				<div class="span-16 last" style="text-align: center; margin-bottom: 10px;">
+				<div class="span-16 last"
+				     style="text-align: center; margin-bottom: 10px;">
 					<% _.each(_.range(1, pages + 1), function(page) { %>
 						<a class="navPage dark"><%= page %></a>
 					<% }); %>
@@ -80,8 +84,10 @@
 		<script type="text/javascript" src="js/models/Category.js"></script>
 		<script type="text/javascript" src="js/models/Item.js"></script>
 		<script type="text/javascript" src="js/collections/Cart.js"></script>
-		<script type="text/javascript" src="js/collections/CategoryList.js"></script>
-		<script type="text/javascript" src="js/collections/Inventory.js"></script>
+		<script type="text/javascript" src="js/collections/CategoryList.js">
+		</script>
+		<script type="text/javascript" src="js/collections/Inventory.js">
+		</script>
 		<script type="text/javascript" src="js/views/AppView.js"></script>
 		<script type="text/javascript" src="js/views/CartView.js"></script>
 		<script type="text/javascript" src="js/views/InventoryView.js"></script>

@@ -6,14 +6,14 @@ firebird.Cart = Backbone.Collection.extend({
 
 	// return the count formatted for use in the "View Cart" link
 	getFormattedCount: function() {
-		var count = this.length;
-
-		if (count == 0)
+		switch (this.length) {
+		case 0:
 			return "empty";
-		else if (count == 1)
+		case 1:
 			return "1 item";
-		else
-			return count + " items";
+		default:
+			return this.length + " items";
+		}
 	}
 
 });

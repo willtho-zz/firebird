@@ -29,7 +29,8 @@ firebird.InventoryView = Backbone.View.extend({
 		self.page = 0;
 		self.renderItemList();
 
-		// workaround to make sure that the #removeSearch link found is the new one
+		// workaround to make sure that the #removeSearch link found is the new
+		// one
 		// todo: find a real solution
 		setTimeout(function() { self.delegateEvents(); }, 10);
 	},
@@ -37,11 +38,14 @@ firebird.InventoryView = Backbone.View.extend({
 	renderItemList: function() {
 		var self = this;
 
-		// filter the inventory based on the selected category and search criteria
+		// filter the inventory based on the selected category and search
+		// criteria
 		self.items = _.pluck(firebird.inventory.models, "attributes");
 
 		if (self.category != 0)
-			self.items = _.where(self.items, { category: parseInt(this.category) });
+			self.items = _.where(self.items, {
+				category: parseInt(this.category)
+			});
 
 		if (self.search) {
 			// split the query into words at the spaces
@@ -83,20 +87,23 @@ firebird.InventoryView = Backbone.View.extend({
 		var items = _.first(_.rest(self.items, self.page * 12), 12);
 
 		// display the items
-		var $itemListItems = self.$("#itemListItems"), $row = $("<div class='span-18 last'></div>"), cols = 0;
-		$itemListItems.empty();
+		var $itemListItems = self.$("#itemListItems").empty(),
+		    $row = $("<div class='span-18 last'></div>"), cols = 0;
 
 		_.each(items, function(item) {
-			var priceHTML = item.price.toFixed(2);
+			var id = item.id, name = item.name, price = item.price.toFixed(2),
+			    salePrice = item.salePrice.toFixed(2);
 
-			if (item.price != item.salePrice)
-				priceHTML = "<strike>" + priceHTML + "</strike><br>" +
-				            "<span class='sale'>$" + item.salePrice.toFixed(2) + "</span>";
+			if (price != salePrice)
+				price = "<strike>" + price + "</strike><br>" +
+				        "<span class='sale'>$" + salePrice + "</span>";
 
-			var $div = $("<div class='span-4'><div class='item-div'></div></div>");
-			$div.children().append("<a class='dark'><b>" + item.name + "</b></a>")
-			    .append("<img class='item-image' src='img/item" + item.id + ".png'>")
-			    .append("<div style='text-align: center;'><b>$" + priceHTML + "</b></div>");
+			var $div =
+				$("<div class='span-4'><div class='item-div'></div></div>");
+			$div.children().append("<a class='dark'><b>" + name + "</b></a>")
+			    .append("<img class='item-image' src='img/item" + id + ".png'>")
+			    .append("<div style='text-align: center;'><b>$" + price +
+				        "</b></div>");
 			$row.append($div);
 
 			// add the row and start a new one
@@ -112,7 +119,8 @@ firebird.InventoryView = Backbone.View.extend({
 
 		if (items.length == 0)
 			$itemListItems.html("<i>Search returned no results.</i>")
-			              .css({ "text-align": "center", "margin-bottom": "12px" });
+			              .css("text-align", "center")
+			              .css("margin-bottom", "12px");
 	},
 
 	removeSearch: function() {
