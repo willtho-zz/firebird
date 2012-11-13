@@ -1,4 +1,4 @@
-from flask import Flask, url_for, redirect, jsonify
+from flask import Flask, url_for, redirect, jsonify, request
 import db_driver
 import os
 app = Flask(__name__)
@@ -19,14 +19,17 @@ def get_categories():
     """Return a list of categories"""
     return '[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']'
 
-@app.route("/api/inventory/<id>")
+@app.route("/api/inventory/<uid>", methods=['GET', 'POST', 'DELETE'])
 @app.route("/api/inventory")
-def get_items(id=None): 
+def get_items(uid=None): 
     """Return a list of items"""
-    if id == None: 
+    if uid == None: 
         return '[' + ','.join([jsonify(x).data for x in db.get_items()]) + ']'
     else:
-        return jsonify( db.get_item( id ) )
+        if request.method == 'DELETE':
+            db.remove( uid )
+        else:
+            return jsonify( db.get_item( uid ) )
 
 @app.route("/")
 def index():
