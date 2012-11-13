@@ -15,8 +15,9 @@ class database(object):
     def setup(self):
         """Setup the database"""
         cursor = self.connect()
-        cursor.execute("CREATE TABLE inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, name unique, category text, quantity integer, price real, salePrice real, description text)")
-        cursor.execute("CREATE TABLE users (id PRIMARY KEY, firstname text, lastname text, username unique, password text, email text, admin boolean)")
+        cursor.execute("CREATE TABLE inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, name unique, category integer, quantity integer, price real, salePrice real, description text)")
+        cursor.execute("CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname text, lastname text, username unique, password text, email text, admin boolean)")
+        cursor.execute("CREATE TABLE categories (id INTEGER PRIMARY KEY AUTOINCREMENT, category text)")
         cursor.close()
         
     def authenticate(self, username, password):
@@ -24,7 +25,7 @@ class database(object):
 
     def add(self, item):
         cursor = self.connect()
-        cursor.execute( "INSERT INTO inventory( name, category, quantity, price, salePrice, description) VALUES ('{}', '{}', {}, {}, {}, '{}')".format( item['name'], item['category'], item['quantity'], item['price'], item['salePrice'], item['description'] ) )
+        cursor.execute( "INSERT INTO inventory( name, category, quantity, price, salePrice, description) VALUES ('{}', {}, {}, {}, {}, '{}')".format( item['name'], item['category'], item['quantity'], item['price'], item['salePrice'], item['description'] ) )
         cursor.close()
         self.conn.commit()
         
@@ -36,7 +37,7 @@ class database(object):
 
     def edit(self, item):
         cursor = self.connect()
-        cursor.execute( "UPDATE inventory SET name = '{}', category = '{}', quantity = {}, price = {}, salePrice = {}, description = '{}' WHERE id = {}".format( item['name'], item['category'], item['quantity'], item['price'], item['salePrice'], item['description'], item['uid'] ) )
+        cursor.execute( "UPDATE inventory SET name = '{}', category = {}, quantity = {}, price = {}, salePrice = {}, description = '{}' WHERE id = {}".format( item['name'], item['category'], item['quantity'], item['price'], item['salePrice'], item['description'], item['uid'] ) )
         cursor.close()
         self.conn.commit()
 
@@ -58,7 +59,7 @@ class database(object):
         if category == None:
             tmp = cursor.execute( "SELECT * FROM inventory" )
         else:
-            tmp = cursor.execute( "SELECT * FROM inventory where category = '{}'".format( category ) )
+            tmp = cursor.execute( "SELECT * FROM inventory where category = {}".format( category ) )
         tmp = tmp.fetchall()
         cursor.close()
         return tmp
