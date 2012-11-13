@@ -19,10 +19,14 @@ def get_categories():
     """Return a list of categories"""
     return '[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']'
 
+@app.route("/api/inventory/<id>")
 @app.route("/api/inventory")
-def get_items(): 
+def get_items(id=None): 
     """Return a list of items"""
-    return '[' + ','.join([jsonify(x).data for x in db.get_items()]) + ']'
+    if id == None: 
+        return '[' + ','.join([jsonify(x).data for x in db.get_items()]) + ']'
+    else:
+        return jsonify( db.get_item( id ) )
 
 @app.route("/")
 def index():
