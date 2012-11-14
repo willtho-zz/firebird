@@ -58,7 +58,7 @@ firebird.InventoryView = Backbone.View.extend({
 				// the name or the description
 				return _.all(search, function(word) {
 					return item.name.toLowerCase().search(word) > -1 ||
-					       item.desc.toLowerCase().search(word) > -1;
+					       item.description.toLowerCase().search(word) > -1;
 				});
 			});
 		}
