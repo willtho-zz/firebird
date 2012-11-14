@@ -10,3 +10,4 @@ INSERT INTO inventory(name, category, quantity, price, salePrice, description) V
 INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('testitem7', 1, 7, 4.8, 3.2, 'This is the seventh item');
 INSERT INTO categories(category) VALUES ('test1');
 INSERT INTO categories(category) VALUES ('test2');
+INSERT INTO users(firstname, lastname, username, password, email, admin) VALUES('John', 'Doe', 'johndoe', 'mypassword', 'johndoe@example.com', 1);

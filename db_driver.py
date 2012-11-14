@@ -21,7 +21,18 @@ class database(object):
         cursor.close()
         
     def authenticate(self, username, password):
-        pass
+        cursor = self.connect()
+        cursor.execute( "SELECT password from users where username = '{}'".format( username ) );
+        tmp = cursor.fetchall()
+        try:
+            tmp = tmp[0][0]
+            if tmp == unicode( password ):
+                return True
+            else:
+                return False
+        except:
+            return False
+        
 
     def add(self, item):
         cursor = self.connect()
@@ -74,6 +85,7 @@ class database(object):
         tmp = tmp.fetchall()
         for x in tmp:
             res.append( {"id": x[0], "name": x[1]} )
+        cursor.close()
         return res
 
     def add_category(self, category):
