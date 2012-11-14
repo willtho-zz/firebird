@@ -1,3 +1,6 @@
+CREATE TABLE inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, name unique, category integer, quantity integer, price real, salePrice real, description text);
+CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname text, lastname text, username unique, password text, email text, admin boolean);
+CREATE TABLE categories (id INTEGER PRIMARY KEY AUTOINCREMENT, category text);
 INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('testitem1', 1, 7, 1.8, 1.7, 'This is the first item');
 INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('testitem2', 2, 7, 1.9, 1.3, 'This is the second item');
 INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('testitem3', 1, 7, 1.12, 1.1, 'This is the third item');
