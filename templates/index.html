@@ -55,7 +55,7 @@
           <% _(row).each(function(item) { %>
             <div class="span-4">
               <div class="item-div">
-                <a class="dark itemLink" data-id="<%= item.id %>">
+                <a href="" class="dark itemLink" data-item-id="<%= item.id %>">
                   <b><%= item.name %></b>
                   <img class="item-preview" src="/static/img/item<%= item.id %>.png">
                 </a>
@@ -84,6 +84,9 @@
           <div class="span-18 last"><br></div>
         </div>
       <% } %>
+    </script>
+    <script id="itemViewTemplate" type="text/template">
+      <h2 class="title"><%= item.name %></h2>
     </script>
     <script type="text/javascript" src="/js/models/CartItem.js"></script>
     <script type="text/javascript" src="/js/models/Category.js"></script>

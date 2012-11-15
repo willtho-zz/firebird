@@ -7,8 +7,12 @@ firebird.ItemView = Backbone.View.extend({
 
   tagName: "div",
 
+  initialize: function() {
+    this.itemViewTemplate = _.template($("#itemViewTemplate").html());
+  },
+
   render: function() {
-    this.$el.html("<h2 class='title'>Item</h2>");
+    this.$el.html(this.itemViewTemplate({ item: firebird.inventory.get(this.id).attributes }));
     return this.$el;
   },
 

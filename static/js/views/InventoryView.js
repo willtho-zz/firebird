@@ -57,6 +57,12 @@ firebird.InventoryView = Backbone.View.extend({
         firebird.router.navigate(url, { trigger: true });
         e.preventDefault();
       });
+
+      // item links
+      self.$el.find(".itemLink").click(function(e) {
+        firebird.router.navigate("item/" + $(this).data("item-id"), { trigger: true });
+        e.preventDefault();
+      });
     }, 10);
 
     return self.$el;
