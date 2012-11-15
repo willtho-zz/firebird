@@ -64,6 +64,12 @@ h2.title {
   margin-top: 10px;
 }
 
+img.item-image {
+  height: 100px;
+  margin-left: 20px;
+  width: 100px;
+}
+
 img.item-preview {
   height: 80px;
   width: 80px;

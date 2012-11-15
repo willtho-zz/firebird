@@ -95,6 +95,24 @@
     </script>
     <script id="itemViewTemplate" type="text/template">
       <h2 class="title"><%= item.name %></h2>
+      <div class="span-4">
+        <img class="item-image" src="/static/img/item<%= item.id %>.png">
+      </div>
+      <div class="span-10">
+        <p><%= item.description %></p>
+        <p>
+          Price:
+          <% if (item.price == item.salePrice) { %>
+            <b>$<%= item.price.toFixed(2) %></b>
+          <% } else { %>
+            <strike><b>$<%= item.price.toFixed(2) %></b></strike>
+            <b class="sale">$<%= item.salePrice.toFixed(2) %></b>
+          <% } %>
+          <% if (item.quantity <= 5) { %>
+            <br><b>Only <%= item.quantity %> left!</b>
+          <% } %>
+        </p>
+      </div>
     </script>
     <script type="text/javascript" src="/js/models/CartItem.js"></script>
     <script type="text/javascript" src="/js/models/Category.js"></script>
