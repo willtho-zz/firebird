@@ -72,7 +72,9 @@ firebird.AppView = Backbone.View.extend({
       if (!query)
         return;
 
-      var url = "search/" + query + "/" + self.category + "/p1";
+      // if we're not in the inventory view, go to "All Items"
+      var category = Math.max(self.category, 0),
+          url = "search/" + query + "/" + category + "/p1";
       firebird.router.navigate(url, { trigger: true });
     });
   },
