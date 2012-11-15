@@ -6,6 +6,10 @@ a.light {
   color: #c8a3e8;
 }
 
+b.sale {
+  color: red;
+}
+
 div.bg-cols {
   background-image: url("../img/bg-cols.png");
 }
@@ -20,6 +24,14 @@ div.info {
   border-color: #a180d3;
   color: #6a31bf;
   margin-right: 10px;
+}
+
+div.item-div {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0px;
+  padding-bottom: 12px;
+  width: 80px;
 }
 
 div.outer {
@@ -43,9 +55,14 @@ h1.title {
 }
 
 h2.title {
-  margin-top: 10px;
   margin-bottom: 5px;
   margin-left: 5px;
+  margin-top: 10px;
+}
+
+img.item-preview {
+  height: 80px;
+  width: 80px;
 }
 
 .align-right {

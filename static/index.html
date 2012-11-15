@@ -50,6 +50,28 @@
           <a id="removeSearch" href="" class="dark">remove</a>
         </div>
       <% } %>
+      <% _(items).each(function(row) { %>
+        <div class="span-18 last">
+          <% _(row).each(function(item) { %>
+            <div class="span-4">
+              <div class="item-div">
+                <a class="dark itemLink" data-id="<%= item.id %>">
+                  <b><%= item.name %></b>
+                  <img class="item-preview" src="/static/img/item<%= item.id %>.png">
+                </a>
+                <div style="text-align: center;">
+                  <% if (item.price == item.salePrice) { %>
+                    <b>$<%= item.price.toFixed(2) %></b>
+                  <% } else { %>
+                    <strike><b>$<%= item.price.toFixed(2) %></b></strike><br>
+                    <b class="sale">$<%= item.salePrice.toFixed(2) %></b>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      <% }); %>
     </script>
     <script type="text/javascript" src="js/models/CartItem.js"></script>
     <script type="text/javascript" src="js/models/Category.js"></script>

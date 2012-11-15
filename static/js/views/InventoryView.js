@@ -17,7 +17,16 @@ firebird.InventoryView = Backbone.View.extend({
     // get the values needed by the template
     var category = self.category ? firebird.categories.get(self.category).get("name") : "All Items";
 
-    self.$el.html(self.inventoryViewTemplate({ category: category, query: self.query }));
+    // create the item list
+    var items = firebird.inventory.filter({ category: self.category, query: self.query }), rows = [];
+
+    // split the item array into groups of four
+    while (items.length) {
+      rows = rows.concat([_(items).first(4)]);
+      items = _(items).rest(4);
+    }
+
+    self.$el.html(self.inventoryViewTemplate({ category: category, query: self.query, items: rows }));
 
     // set up event handlers
     setTimeout(function() {
