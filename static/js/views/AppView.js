@@ -94,6 +94,7 @@ firebird.AppView = Backbone.View.extend({
 
     // update the UI
     self.$categoryList.children("a").removeClass("bold");
+    document.title = "James' Magic Shop - Shopping Cart";
     self.transition(self.views.cart);
   },
 
@@ -110,6 +111,8 @@ firebird.AppView = Backbone.View.extend({
       if (id == category)
         $this.addClass("bold");
     });
+    var categoryTitle = category ? " - " + firebird.categories.get(category).get("name") : "";
+    document.title = "James' Magic Shop" + categoryTitle;
 
     self.views.inventory.setCategory(category).setPage(page).setQuery(query);
     self.transition(self.views.inventory);
@@ -123,6 +126,7 @@ firebird.AppView = Backbone.View.extend({
 
     // update the UI
     self.$categoryList.children("a").removeClass("bold");
+    document.title = "James' Magic Shop - " + firebird.inventory.get(id).get("name");
 
     self.views.item.setID(id);
     self.transition(self.views.item);
