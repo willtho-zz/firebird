@@ -115,6 +115,7 @@
           new firebird.Category({ id: 4, name: "Juggling" }),
           new firebird.Category({ id: 5, name: "Rope Magic" })
         ]);
+        firebird.inventory.fetch();
 
         // start routing requests and run the app
         firebird.router = new firebird.Router();

@@ -20,6 +20,11 @@ firebird.AppView = Backbone.View.extend({
     self.views.inventory = new firebird.InventoryView();
     self.views.item = new firebird.ItemView();
 
+    // update the inventory view when the inventory changes
+    firebird.inventory.on("all", function() {
+      self.views.inventory.render();
+    });
+
     // update the category list when the categories change
     firebird.categories.on("all", function() {
       // handler for category link
