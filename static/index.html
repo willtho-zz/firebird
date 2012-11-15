@@ -59,7 +59,7 @@
                   <b><%= item.name %></b>
                   <img class="item-preview" src="/static/img/item<%= item.id %>.png">
                 </a>
-                <div style="text-align: center;">
+                <div class="center">
                   <% if (item.price == item.salePrice) { %>
                     <b>$<%= item.price.toFixed(2) %></b>
                   <% } else { %>
@@ -72,6 +72,16 @@
           <% }); %>
         </div>
       <% }); %>
+      <div class="span-16 center">
+        <% _(_.range(1, pages + 1)).each(function(page) { %>
+          <% if (page == currentPage) { %>
+            <b><a href="" class="navPage dark" data-page="<%= page %>"><%= page %></a></b>
+          <% } else { %>
+            <a href="" class="navPage dark" data-page="<%= page %>"><%= page %></a>
+          <% } %>
+        <% }); %>
+        <div class="span-18 last"><br></div>
+      </div>
     </script>
     <script type="text/javascript" src="js/models/CartItem.js"></script>
     <script type="text/javascript" src="js/models/Category.js"></script>

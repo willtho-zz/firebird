@@ -14,6 +14,10 @@ div.bg-cols {
   background-image: url("../img/bg-cols.png");
 }
 
+div.center {
+  text-align: center;
+}
+
 div.header {
   background-color: #3a0a5c;
   height: 70px;
