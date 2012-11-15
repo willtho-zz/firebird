@@ -94,7 +94,7 @@ firebird.AppView = Backbone.View.extend({
 
     // update the UI
     self.$categoryList.children("a").removeClass("bold");
-    self.$contentDiv.html(self.views.cart.render());
+    self.transition(self.views.cart);
   },
 
   navigateInventory: function(category, page, query) {
@@ -112,7 +112,7 @@ firebird.AppView = Backbone.View.extend({
     });
 
     self.views.inventory.setCategory(category).setPage(page).setQuery(query);
-    self.$contentDiv.html(self.views.inventory.render());
+    self.transition(self.views.inventory);
   },
 
   navigateItem: function(id) {
@@ -125,7 +125,17 @@ firebird.AppView = Backbone.View.extend({
     self.$categoryList.children("a").removeClass("bold");
 
     self.views.item.setID(id);
-    self.$contentDiv.html(self.views.item.render());
+    self.transition(self.views.item);
+  },
+
+  // fade out the content area, replace the content and fade back in
+  transition: function(view) {
+    var self = this;
+
+    self.$contentDiv.fadeOut(150, function() {
+      self.$contentDiv.html(view.render());
+      self.$contentDiv.fadeIn(150);
+    });
   }
 
 });
