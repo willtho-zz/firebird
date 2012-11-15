@@ -1,4 +1,4 @@
-from flask import Flask, url_for, redirect, jsonify, request
+from flask import Flask, url_for, redirect, jsonify, request, render_template
 import db_driver
 import os
 app = Flask(__name__)
@@ -22,6 +22,18 @@ def get_categories():
     elif request.method == 'POST':
         pass
 
+@app.route("/css/<name>")
+def css(name):
+    return redirect( url_for( "static", filename='css/{}'.format(name ) ) )
+
+@app.route("/js/<name>")
+@app.route("/js/<folder>/<name>")
+def js(name, folder=None):
+    if folder != None:
+        return redirect( url_for( "static", filename='js/{}/{}'.format( folder, name ) ) )
+    else:
+        return redirect( url_for( "static", filename='js/{}'.format( name ) )  )
+
 @app.route("/api/inventory/<uid>", methods=['GET', 'PUT', 'DELETE'])
 @app.route("/api/inventory", methods=['GET', 'POST'])
 def get_items(uid=None): 
@@ -41,7 +53,8 @@ def get_items(uid=None):
 @app.route("/")
 def index():
     """return a redirect to the index.html page"""
-    return redirect( url_for( "static", filename="index.html" ) )
+    #return redirect( url_for( "static", filename="index.html" ) )
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.debug = True

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>James' Magic Shop</title>
+    <link rel="stylesheet" type="text/css" href="css/blueprint.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/underscore.js"></script>
+    <script type="text/javascript" src="js/backbone.js"></script>
+  </head>
+  <body>
+    <div id="app" class="container outer">
+      <div class="span-24 header">
+        <div class="span-12 header relative">
+          <h1 class="title valign-bottom">
+            <b>James' Magic Shop</b>
+          </h1>
+        </div>
+        <div class="span-12 last header relative">
+          <div class="span-12 last valign-bottom">
+            <div class="align-right">
+              <a id="viewCartLink" href="" class="light">
+                View Cart (<span id="cartItemCount"></span>)
+              </a>
+            </div>
+            <div class="align-right">
+              <form id="searchForm">
+                <input id="searchText" type="text" placeholder="Search">
+                <input type="submit" value="Go">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="span-24 bg-cols">
+        <div class="span-6">
+          <div id="categoryList" class="padded"></div>
+        </div>
+        <div id="contentDiv" class="span-18 last"></div>
+      </div>
+    </div>
+    <script id="inventoryViewTemplate" type="text/template">
+      <h2 class="title"><%= category %></h2>
+      <% if (query) { %>
+        <div class='info'>
+          Using filter "<%= query %>"
+          <a id="removeSearch" href="" class="dark">remove</a>
+        </div>
+      <% } %>
+      <% _(items).each(function(row) { %>
+        <div class="span-18 last">
+          <% _(row).each(function(item) { %>
+            <div class="span-4">
+              <div class="item-div">
+                <a class="dark itemLink" data-id="<%= item.id %>">
+                  <b><%= item.name %></b>
+                  <img class="item-preview" src="/static/img/item<%= item.id %>.png">
+                </a>
+                <div class="center">
+                  <% if (item.price == item.salePrice) { %>
+                    <b>$<%= item.price.toFixed(2) %></b>
+                  <% } else { %>
+                    <strike><b>$<%= item.price.toFixed(2) %></b></strike><br>
+                    <b class="sale">$<%= item.salePrice.toFixed(2) %></b>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      <% }); %>
+      <div class="span-16 center">
+        <% _(_.range(1, pages + 1)).each(function(page) { %>
+          <% if (page == currentPage) { %>
+            <b><a href="" class="navPage dark" data-page="<%= page %>"><%= page %></a></b>
+          <% } else { %>
+            <a href="" class="navPage dark" data-page="<%= page %>"><%= page %></a>
+          <% } %>
+        <% }); %>
+        <div class="span-18 last"><br></div>
+      </div>
+    </script>
+    <script type="text/javascript" src="js/models/CartItem.js"></script>
+    <script type="text/javascript" src="js/models/Category.js"></script>
+    <script type="text/javascript" src="js/models/Item.js"></script>
+    <script type="text/javascript" src="js/collections/Cart.js"></script>
+    <script type="text/javascript" src="js/collections/CategoryList.js"></script>
+    <script type="text/javascript" src="js/collections/Inventory.js"></script>
+    <script type="text/javascript" src="js/views/AppView.js"></script>
+    <script type="text/javascript" src="js/views/CartView.js"></script>
+    <script type="text/javascript" src="js/views/InventoryView.js"></script>
+    <script type="text/javascript" src="js/Router.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        // instantiate all of the top-level collections
+        firebird.cart = new firebird.Cart();
+        firebird.categories = new firebird.CategoryList();
+        firebird.inventory = new firebird.Inventory();
+
+        // set up the main view
+        firebird.app = new firebird.AppView({ el: $("div#app") });
+        firebird.categories.reset([
+          new firebird.Category({ id: 1, name: "Books" }),
+          new firebird.Category({ id: 2, name: "Card Magic" }),
+          new firebird.Category({ id: 3, name: "Coin Magic" }),
+          new firebird.Category({ id: 4, name: "Juggling" }),
+          new firebird.Category({ id: 5, name: "Rope Magic" })
+        ]);
+
+        // start routing requests and run the app
+        firebird.router = new firebird.Router();
+        firebird.router.navigate("", { trigger: true });
+      });
+    </script>
+  </body>
+</html>
