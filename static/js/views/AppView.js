@@ -12,6 +12,7 @@ firebird.AppView = Backbone.View.extend({
     self.$cartItemCount = self.$("#cartItemCount");
     self.$categoryList = self.$("#categoryList");
     self.$contentDiv = self.$("#contentDiv");
+    self.$searchText = self.$("#searchText");
 
     // create the child views
     self.views = {};
@@ -24,7 +25,12 @@ firebird.AppView = Backbone.View.extend({
       function navigateCategory(e) {
         // navigate to the correct category
         var id = $(this).data("category-id");
-        firebird.router.navigate("shop/" + id + "/p1", { trigger: true });
+
+        // navigate to either /search or /shop, depending on whether the user has
+        // entered a query
+        var url = self.query ? "search/" + self.query + "/" : "shop/";
+        url += id + "/p1";
+        firebird.router.navigate(url, { trigger: true });
 
         e.preventDefault();
       }
@@ -54,6 +60,21 @@ firebird.AppView = Backbone.View.extend({
       self.$cartItemCount.html(firebird.cart.getFormattedCount());
     });
     firebird.cart.trigger("change");
+
+    // add the search event handler
+    self.$("#searchForm").submit(function(e) {
+      e.preventDefault();
+
+      var query = self.$searchText.val();
+      self.$searchText.val("");
+
+      // don't allow an empty query
+      if (!query)
+        return;
+
+      var url = "search/" + query + "/" + self.category + "/p1";
+      firebird.router.navigate(url, { trigger: true });
+    });
   },
 
   // navigation actions
@@ -61,7 +82,7 @@ firebird.AppView = Backbone.View.extend({
     var self = this;
 
     self.category = -1;
-    self.search = "";
+    self.query = "";
 
     // update the UI
     self.$categoryList.children("a").removeClass("bold");

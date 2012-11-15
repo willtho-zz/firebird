@@ -7,12 +7,31 @@ firebird.InventoryView = Backbone.View.extend({
 
   tagName: "div",
 
-  render: function() {
-    var category = this.category ? firebird.categories.get(this.category).get("name") : "All Items";
-    this.$el.html("<h2 class='title'>" + category + "</h2>");
-    return this.$el;
+  initialize: function() {
+    this.inventoryViewTemplate = _.template($("#inventoryViewTemplate").html());
   },
 
+  render: function() {
+    var self = this;
+
+    // get the values needed by the template
+    var category = self.category ? firebird.categories.get(self.category).get("name") : "All Items";
+
+    self.$el.html(self.inventoryViewTemplate({ category: category, query: self.query }));
+
+    // set up event handlers
+    setTimeout(function() {
+      // "remove" link
+      self.$el.find("#removeSearch").click(function(e) {
+        firebird.router.navigate("shop/" + self.category + "/p1", { trigger: true });
+        e.preventDefault();
+      });
+    }, 10);
+
+    return self.$el;
+  },
+
+  // mutator methods - return "this" to enable method chaining
   setCategory: function(category) {
     this.category = category;
     return this;

@@ -42,6 +42,15 @@
         <div id="contentDiv" class="span-18 last"></div>
       </div>
     </div>
+    <script id="inventoryViewTemplate" type="text/template">
+      <h2 class="title"><%= category %></h2>
+      <% if (query) { %>
+        <div class='info'>
+          Using filter "<%= query %>"
+          <a id="removeSearch" href="" class="dark">remove</a>
+        </div>
+      <% } %>
+    </script>
     <script type="text/javascript" src="js/models/CartItem.js"></script>
     <script type="text/javascript" src="js/models/Category.js"></script>
     <script type="text/javascript" src="js/models/Item.js"></script>
