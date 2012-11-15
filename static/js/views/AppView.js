@@ -11,6 +11,12 @@ firebird.AppView = Backbone.View.extend({
     // cache HTML elements
     self.$cartItemCount = self.$("#cartItemCount");
     self.$categoryList = self.$("#categoryList");
+    self.$contentDiv = self.$("#contentDiv");
+
+    // create the child views
+    self.views = {};
+    self.views.cart = new firebird.CartView();
+    self.views.inventory = new firebird.InventoryView();
 
     // update the category list when the categories change
     firebird.categories.on("all", function() {
@@ -59,8 +65,7 @@ firebird.AppView = Backbone.View.extend({
 
     // update the UI
     self.$categoryList.children("a").removeClass("bold");
-
-    console.log("cart");
+    self.$contentDiv.html(self.views.cart.render());
   },
 
   navigateInventory: function(category, page, query) {
@@ -77,7 +82,8 @@ firebird.AppView = Backbone.View.extend({
         $this.addClass("bold");
     });
 
-    console.log("inventory " + category + " " + page + " \"" + query + "\"");
+    self.views.inventory.setCategory(category).setPage(page).setQuery(query);
+    self.$contentDiv.html(self.views.inventory.render());
   }
 
 });
