@@ -37,7 +37,7 @@ firebird.InventoryView = Backbone.View.extend({
       query: self.query,
       currentPage: self.page,
       pages: Math.max(pages.length, 1),
-      items: pages[self.page - 1]
+      items: pages[self.page - 1] || []
     }));
 
     // set up event handlers

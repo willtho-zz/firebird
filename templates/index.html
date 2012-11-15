@@ -72,6 +72,11 @@
           <% }); %>
         </div>
       <% }); %>
+      <% if (items.length == 0) { %>
+        <div class="span-16 center">
+          <i>No items found.</i>
+        </div>
+      <% } %>
       <% if (pages > 1) { %>
         <div class="span-16 center">
           <% _(_.range(1, pages + 1)).each(function(page) { %>
