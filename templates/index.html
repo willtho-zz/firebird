@@ -116,13 +116,9 @@
 
         // set up the main view
         firebird.app = new firebird.AppView({ el: $("div#app") });
-        firebird.categories.reset([
-          new firebird.Category({ id: 1, name: "Books" }),
-          new firebird.Category({ id: 2, name: "Card Magic" }),
-          new firebird.Category({ id: 3, name: "Coin Magic" }),
-          new firebird.Category({ id: 4, name: "Juggling" }),
-          new firebird.Category({ id: 5, name: "Rope Magic" })
-        ]);
+        {% autoescape false %}
+        firebird.categories.reset({{ categories }});
+        {% endautoescape %}
         firebird.inventory.fetch();
 
         // start routing requests and run the app
