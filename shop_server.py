@@ -54,7 +54,7 @@ def get_items(uid=None):
 def index():
     """return a redirect to the index.html page"""
     #return redirect( url_for( "static", filename="index.html" ) )
-    return render_template('index.html')
+    return render_template('index.html', categories='[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']')
 
 if __name__ == '__main__':
     app.debug = True
