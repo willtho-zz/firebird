@@ -1,34 +1,37 @@
+// Router.js
+// Backbone router that updates the main view when the URL changes
+
 var firebird = firebird || {};
 
 firebird.Router = Backbone.Router.extend({
 
-	routes: {
-		"cart": "navigateCart",
-		"item/:id": "navigateItem",
-		"shop": "navigateAllCategories",
-		"shop/:id": "navigateCategory"
-	},
+  routes: {
+    "":                               "navigateHome",
+    "cart":                           "navigateCart",
+    "shop/:category/p:page":          "navigateInventory",
+    "search/:query/:category/p:page": "navigateInventorySearch"
+  },
 
-	initialize: function() {
-		// start routing requests
-		Backbone.history.start();
-	},
+  initialize: function() {
+    // start routing urls
+    Backbone.history.start({ pushState: true });
+  },
 
-	// for each route, call the corresponding function in the AppView
-	navigateAllCategories: function() {
-		firebird.app.navigateAllCategories();
-	},
+  // for each route, call the corresponding function in the AppView
+  navigateCart: function() {
+    firebird.app.navigateCart();
+  },
 
-	navigateCart: function() {
-		firebird.app.navigateCart();
-	},
+  navigateHome: function() {
+    firebird.app.navigateInventory(0, 1, null);
+  },
 
-	navigateCategory: function(id) {
-		firebird.app.navigateCategory(id);
-	},
+  navigateInventory: function(category, page) {
+    firebird.app.navigateInventory(parseInt(category), parseInt(page), null);
+  },
 
-	navigateItem: function(id) {
-		firebird.app.navigateItem(id);
-	}
+  navigateInventorySearch: function(query, category, page) {
+    firebird.app.navigateInventory(parseInt(category), parseInt(page), query);
+  }
 
 });

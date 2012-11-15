@@ -1,104 +1,83 @@
+// AppView.js
+// Top-level view responsible for navigation and setting up child views
+
 var firebird = firebird || {};
 
 firebird.AppView = Backbone.View.extend({
 
-	el: $("#app"),
+  initialize: function() {
+    var self = this;
 
-	initialize: function() {
-		var self = this;
+    // cache HTML elements
+    self.$cartItemCount = self.$("#cartItemCount");
+    self.$categoryList = self.$("#categoryList");
 
-		// cache HTML elements
-		self.$cartItemCount = self.$("#cartItemCount");
-		self.$categoryList = self.$("#categoryList");
-		self.$contentDiv = self.$("#contentDiv");
-		self.$searchText = self.$("#searchText");
+    // update the category list when the categories change
+    firebird.categories.on("all", function() {
+      // handler for category link
+      function navigateCategory(e) {
+        // navigate to the correct category
+        var id = $(this).data("category-id");
+        firebird.router.navigate("shop/" + id + "/p1", { trigger: true });
 
-		// cache templates
-		self.categoryListTemplate =
-			_.template($("#categoryListTemplate").html());
+        e.preventDefault();
+      }
 
-		// initialize content views
-		self.views = {};
-		self.views.cart = new firebird.CartView();
-		self.views.item = new firebird.ItemView();
-		self.views.shop = new firebird.InventoryView();
+      // add the "All Items" link and set up the click handler
+      self.$categoryList.html("<a href='' class='dark'>All Items</a><br><br>");
+      self.$categoryList.children("a").data("category-id", 0).click(navigateCategory);
 
-		// update cart item count
-		firebird.cart.on("all", function() {
-			self.$cartItemCount.html(firebird.cart.getFormattedCount());
-		});
-		firebird.cart.trigger("change");
+      // add a link for each category
+      firebird.categories.each(function(category) {
+        var $a = $("<a href='' class='dark'>" + category.get("name") + "</a>");
+        $a.data("category-id", category.get("id"));
+        $a.click(navigateCategory);
 
-		// update category list
-		firebird.categories.on("add remove reset", function() {
-			self.$categoryList.html(self.categoryListTemplate({
-				categories: firebird.categories.models
-			}));
+        self.$categoryList.append($a).append("<br>");
+      });
+    });
 
-			// remove extra spaces from link contents
-			self.$categoryList.find("a").each(function() {
-				$(this).html($(this).html().trim());
-			});
+    // set up the "View Cart" link handler
+    self.$("#viewCartLink").click(function(e) {
+      firebird.router.navigate("cart", { trigger: true });
+      e.preventDefault();
+    });
 
-			// if the inventory is open, highlight the right link
-			var category = self.views.shop.category;
+    // update the link when the cart changes
+    firebird.cart.on("all", function() {
+      self.$cartItemCount.html(firebird.cart.getFormattedCount());
+    });
+    firebird.cart.trigger("change");
+  },
 
-			if (location.hash.substring(0, 5) == "#shop")
-				self.setCategory(category ? "shop-" + category : "shop");
-		});
+  // navigation actions
+  navigateCart: function() {
+    var self = this;
 
-		// set up the search event handler
-		self.$("#searchForm").submit(function(e) {
-			e.preventDefault();
+    self.category = -1;
+    self.search = "";
 
-			// make sure the input isn't empty
-			if (!self.$searchText.val())
-				return;
+    // update the UI
+    self.$categoryList.children("a").removeClass("bold");
 
-			// if the cart is open, navigate to inventory view
-			if (location.hash.substring(0, 5) != "#shop")
-				firebird.router.navigate("shop", { trigger: true });
+    console.log("cart");
+  },
 
-			self.views.shop.setSearch(self.$searchText.val());
-			self.views.shop.render();
-			self.$searchText.val("");
-		});
-	},
+  navigateInventory: function(category, page, query) {
+    var self = this;
 
-	// navigation actions
-	navigateAllCategories: function() {
-		this.setCategory("shop");
-		this.views.shop.setCategory("all");
-		this.$contentDiv.html(this.views.shop.render().el);
-		document.title = "James' Magic Shop";
-	},
+    self.category = category;
+    self.query = query;
 
-	navigateCart: function() {
-		this.setCategory();
-		this.$contentDiv.html(this.views.cart.render().el);
-		document.title = "James' Magic Shop - Shopping Cart";
-	},
+    // update the UI
+    self.$categoryList.children("a").removeClass("bold").each(function() {
+      var $this = $(this), id = $this.data("category-id");
 
-	navigateCategory: function(id) {
-		this.setCategory("shop-" + id);
-		this.views.shop.setCategory(id);
-		this.$contentDiv.html(this.views.shop.render().el);
-		document.title = "James' Magic Shop - " +
-		                 firebird.categories.get(id).get("name");
-	},
+      if (id == category)
+        $this.addClass("bold");
+    });
 
-	navigateItem: function(id) {
-		this.setCategory();
-		this.views.item.setItem(firebird.inventory.get(id));
-		this.$contentDiv.html(this.views.item.render().el);
-		document.title = "James' Magic Shop - " +
-		                 firebird.inventory.get(id).get("name");
-	},
-
-	// change the link for the given category to bold
-	setCategory: function(id) {
-		this.$categoryList.find("a").removeClass("bold").filter("#" + id)
-		    .addClass("bold");
-	}
+    console.log("inventory " + category + " " + page + " \"" + query + "\"");
+  }
 
 });
