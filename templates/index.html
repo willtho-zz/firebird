@@ -97,6 +97,10 @@
       <h2 class="title"><%= item.name %></h2>
       <div class="span-4">
         <img class="item-image" src="/static/img/item<%= item.id %>.png">
+        <form id="addToCartForm">
+          Quantity: <input type="text" id="addQuantity" value="1" size=3><br>
+          <input type="submit" value="Add To Cart">
+        </form>
       </div>
       <div class="span-10">
         <p><%= item.description %></p>

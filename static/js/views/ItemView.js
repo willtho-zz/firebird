@@ -12,8 +12,24 @@ firebird.ItemView = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.html(this.itemViewTemplate({ item: firebird.inventory.get(this.id).attributes }));
-    return this.$el;
+    var self = this;
+
+    self.$el.html(self.itemViewTemplate({ item: firebird.inventory.get(self.id).attributes }));
+
+    // set up event handlers
+    setTimeout(function() {
+      // "add to cart" form
+      self.$("#addToCartForm").submit(function(e) {
+        firebird.cart.add(new firebird.CartItem({
+          itemID: self.id,
+          count: parseInt(self.$("#addQuantity").val())
+        }));
+
+        e.preventDefault();
+      });
+    }, 10);
+
+    return self.$el;
   },
 
   // mutator methods - return "this" to enable method chaining
