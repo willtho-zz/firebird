@@ -7,8 +7,12 @@ firebird.CartView = Backbone.View.extend({
 
   tagName: "div",
 
+  initialize: function() {
+    this.cartViewTemplate = _.template($("#cartViewTemplate").html());
+  },
+
   render: function() {
-    this.$el.html("<h2 class='title'>Shopping Cart</h2>");
+    this.$el.html(this.cartViewTemplate());
     return this.$el;
   }
 
