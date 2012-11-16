@@ -43,7 +43,37 @@
       </div>
     </div>
     <script id="cartViewTemplate" type="text/template">
+      <% var page = 1; %>
       <h2 class="title">Shopping Cart</h2>
+      <div class="span-1">&nbsp;</div>
+      <div class="span-16">
+        <% items.each(function(cartItem) {
+          var item = inventory.get(cartItem.get("itemID")); %>
+          <div class="span-16 last">
+            <br><h4><b><%= page++ %>) <%= item.get("name") %></b></h4>
+          </div>
+          <div class="span-3">
+            <img class="item-preview" src="/static/img/item<%= item.get("id") %>.png">
+          </div>
+          <div class="span-4">
+            <br>
+            Quantity: <input type="text" value="<%= cartItem.get("count") %>"
+                             id="item<%= cartItem.get("itemID") %>Quantity" size=3>
+          </div>
+          <div class="span-3">
+            <br><button class="removeButton">Remove</button>
+          </div>
+          <div class="span-3">
+            <br>
+            Price: $<%= item.get("salePrice").toFixed(2) %>
+            
+          </div>
+          <div class="span-3 last">
+            <br>= $<%= (item.get("salePrice") * cartItem.get("count")).toFixed(2) %>
+          </div>
+        <% }); %>
+      </div>
+      <div class="span-1 last">&nbsp;</div>
     </script>
     <script id="inventoryViewTemplate" type="text/template">
       <h2 class="title"><%= category %></h2>
