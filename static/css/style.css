@@ -65,14 +65,17 @@ h2.title {
 }
 
 img.item-image {
-  height: 100px;
-  margin-left: 20px;
-  width: 100px;
+  height: 200px;
+  width: 200px;
 }
 
 img.item-preview {
   height: 80px;
   width: 80px;
+}
+
+p.item-description {
+  font-size: 14px;
 }
 
 .align-right {
