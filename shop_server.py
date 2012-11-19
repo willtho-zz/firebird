@@ -51,12 +51,16 @@ def get_items(uid=None):
         else:
             pass
 
+
+@app.route('/item/<id>')
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
-def index(path):
+def index(path=None, id=None):
     """return a redirect to the index.html page"""
-    #return redirect( url_for( "static", filename="index.html" ) )
-    return render_template('index.html', categories='[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']')
+    tmpitem = None
+    if id != None:
+        tmpitem = jsonify( db.get_item( id ) ).data
+    return render_template('index.html', categories='[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']', item=tmpitem)
 
 if __name__ == '__main__':
     app.debug = True
