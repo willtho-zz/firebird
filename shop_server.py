@@ -22,6 +22,7 @@ def get_categories():
     elif request.method == 'POST':
         pass
 
+
 @app.route("/css/<name>")
 def css(name):
     return redirect( url_for( "static", filename='css/{}'.format(name ) ) )
@@ -50,8 +51,9 @@ def get_items(uid=None):
         else:
             pass
 
-@app.route("/")
-def index():
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def index(path):
     """return a redirect to the index.html page"""
     #return redirect( url_for( "static", filename="index.html" ) )
     return render_template('index.html', categories='[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']')
