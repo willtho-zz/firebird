@@ -174,12 +174,15 @@
         firebird.app = new firebird.AppView({ el: $("div#app") });
         {% autoescape false %}
         firebird.categories.reset({{ categories }});
+        {% if item %}
+        firebird.inventory.add({{ item }});
+        {% endif %}
         {% endautoescape %}
         firebird.inventory.fetch();
 
         // start routing requests and run the app
         firebird.router = new firebird.Router();
-        firebird.router.navigate("", { trigger: true });
+        firebird.router.navigate(location.pathname, { trigger: true });
       });
     </script>
   </body>
