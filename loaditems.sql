@@ -2,8 +2,8 @@ CREATE TABLE inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, name unique, categ
 CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname text, lastname text, username unique, password text, email text, admin boolean);
 CREATE TABLE categories (id INTEGER PRIMARY KEY AUTOINCREMENT, category text);
 INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('testitem1', 1, 7, 1.8, 1.7, 'This is the first item');
-INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('testitem2', 2, 3, 1.9, 1.9, 'This is the second item');
-INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('testitem3', 1, 7, 1.12, 1.12, 'This is the third item');
+INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('Anything is Possible Bottle', 4, 3, 1.9, 1.9, 'A bottle, where anything is possible.');
+INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('Confetti Wand', 6, 7, 1.12, 1.12, 'A wand that explodes with confetti.');
 INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('testitem4', 3, 7, 1.45, 1.3, 'This is the fourth item');
 INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('testitem5', 3, 7, 1.56, 1.56, 'This is the fifth item');
 INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('testitem6', 2, 2, 2.8, 1.45, 'This is the sixth item');
@@ -32,4 +32,7 @@ INSERT INTO inventory(name, category, quantity, price, salePrice, description) V
 INSERT INTO categories(category) VALUES ('test1');
 INSERT INTO categories(category) VALUES ('test2');
 INSERT INTO categories(category) VALUES ('test3');
+INSERT INTO categories(category) VALUES ('Bottles');
+INSERT INTO categories(category) VALUES ('Hats');
+INSERT INTO categories(category) VALUES ('Wands');
 INSERT INTO users(firstname, lastname, username, password, email, admin) VALUES('John', 'Doe', 'johndoe', 'mypassword', 'johndoe@example.com', 1);
