@@ -20,10 +20,17 @@ firebird.ItemView = Backbone.View.extend({
     setTimeout(function() {
       // "add to cart" form
       self.$("#addToCartForm").submit(function(e) {
-        firebird.cart.add(new firebird.CartItem({
-          itemID: self.id,
-          count: parseInt(self.$("#addQuantity").val())
-        }));
+        var item = firebird.cart.where({ itemID: self.id })[0];
+
+        if (item) {
+          item.incrementCount(parseInt(self.$("#addQuantity").val()));
+        }
+        else {
+          firebird.cart.add(new firebird.CartItem({
+            itemID: self.id,
+            count: parseInt(self.$("#addQuantity").val())
+          }));
+        }
 
         e.preventDefault();
       });
