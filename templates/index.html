@@ -143,6 +143,9 @@
             <b class="sale">$<%= item.salePrice.toFixed(2) %></b>
           <% } %>
         </h3>
+        <% if (item.quantity <= 5) { %>
+          <h4><i>Only <%= item.quantity %> left!</i></h4>
+        <% } %>
         <form id="addToCartForm">
           Quantity: <input type="text" id="addQuantity" value=1 size=3><br>
           <input type="submit" value="Add to Cart">
