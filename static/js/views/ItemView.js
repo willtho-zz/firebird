@@ -32,6 +32,8 @@ firebird.ItemView = Backbone.View.extend({
           }));
         }
 
+        Notifier.success("\"" + firebird.inventory.get(self.id).get("name") + "\" added to cart.");
+
         e.preventDefault();
       });
     }, 10);
