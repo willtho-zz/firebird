@@ -75,6 +75,11 @@
             <br>= $<%= (item.get("salePrice") * cartItem.get("count")).toFixed(2) %>
           </div>
         <% }); %>
+        <% if (items.length == 0) { %>
+          <div class="span-16 center">
+            <i>No items in cart.</i>
+          </div>
+        <% } %>
       </div>
       <div class="span-1 last">&nbsp;</div>
     </script>
