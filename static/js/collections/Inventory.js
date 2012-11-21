@@ -28,8 +28,8 @@ firebird.Inventory = Backbone.Collection.extend({
       items = _(items).filter(function(item) {
         // return items where all search terms were found
         return _(query).all(function(term) {
-          return item.name.search(term) >= 0 ||
-                 item.description.search(term) >= 0;
+          return item.name.toLowerCase().search(term) >= 0 ||
+                 item.description.toLowerCase().search(term) >= 0;
         });
       });
     }
