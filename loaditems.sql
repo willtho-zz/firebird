@@ -1,7 +1,7 @@
 CREATE TABLE inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, name unique, category integer, quantity integer, price real, salePrice real, description text);
 CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname text, lastname text, username unique, password text, email text, admin boolean);
 CREATE TABLE categories (id INTEGER PRIMARY KEY AUTOINCREMENT, category text);
-INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('Hat and Wand Combo', 1, 7, 1.8, 1.7, 'Can't really have one without the other... Am I right?');
+INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('Hat and Wand Combo', 1, 7, 1.8, 1.7, 'Can''t really have one without the other... Am I right?');
 INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('Anything is Possible Bottle', 2, 3, 1.9, 1.9, 'A bottle, where anything is possible.');
 INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('Confetti Wand', 6, 7, 1.12, 1.12, 'A wand that explodes with confetti.');
 INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('Cumberband Servante', 3, 7, 101.45, 1.3, 'You fancy, huh?');
