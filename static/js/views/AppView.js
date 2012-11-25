@@ -20,6 +20,11 @@ firebird.AppView = Backbone.View.extend({
     self.views.inventory = new firebird.InventoryView();
     self.views.item = new firebird.ItemView();
 
+    self.$("#homeLink").click(function(e) {
+      firebird.router.navigate("/", { trigger: true });
+      e.preventDefault();
+    });
+
     // update the inventory view when the inventory changes
     firebird.inventory.on("all", function() {
       self.views.inventory.render();

@@ -12,11 +12,22 @@ firebird.CartView = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.html(this.cartViewTemplate({
+    var self = this;
+
+    self.$el.html(self.cartViewTemplate({
       inventory: firebird.inventory,
       items: firebird.cart
     }));
-    return this.$el;
+
+    setTimeout(function() {
+      // add the remove button event handler
+      self.$(".removeButton").click(function(e) {
+        firebird.cart.remove(firebird.cart.where({ itemID: $(this).data("item-id") }));
+        firebird.app.navigateCart();
+      });
+    }, 350);
+
+    return self.$el;
   }
 
 });
