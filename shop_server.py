@@ -1,9 +1,11 @@
-from flask import Flask, url_for, redirect, jsonify, request, render_template
+from flask import Flask, url_for, redirect, jsonify, request, render_template, send_from_directory
+from werkzeug import secure_filename
 import db_driver
 import os
 app = Flask(__name__)
 
-
+UPLOAD_FOLDER = '/home/will/code/firebird/uploaded_file'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db = db_driver.database('test.db')
 #replace with code to make sure the schemas match
 if not os.path.exists( 'test.db' ):
@@ -22,6 +24,27 @@ def get_categories():
     elif request.method == 'POST':
         pass
 
+@app.route("/upload", methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        tmpfile = request.files['file']
+        if tmpfile:
+            filename = secure_filename( tmpfile.filename )  
+            tmpfile.save( os.path.join( app.config['UPLOAD_FOLDER'], filename ) )
+            return redirect( url_for( 'uploaded_file', filename=filename ) )
+    return '''
+        <!doctype html>
+            <title>Upload new File</title>
+                <h1>Upload new File</h1>
+                    <form action="" method=post enctype=multipart/form-data>
+                          <p><input type=file name=file>
+                                   <input type=submit value=Upload>
+                                       </form>
+                                           '''
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route("/css/<name>")
 def css(name):
