@@ -51,7 +51,7 @@
       <div class="span-1">&nbsp;</div>
       <div class="span-16">
         <% items.each(function(cartItem) {
-          var item = inventory.get(cartItem.get("itemID")); %>
+             var item = inventory.get(cartItem.get("itemID")); %>
           <h4><b><%= num++ %>) <%= item.get("name") %></b></h4>
           <table>
             <tr>
@@ -59,8 +59,8 @@
                 <img class="item-preview" src="/static/img/item<%= item.get("id") %>.png">
               </td>
               <td>
-                Quantity: <input type="text" value="<%= cartItem.get("count") %>"
-                                 id="item<%= cartItem.get("itemID") %>Quantity" size=3>
+                Quantity: <input type="text" value="<%= cartItem.get("count") %>" class="quantityInput"
+                                 data-item-id="<%= cartItem.get("itemID") %>" size=3>
               </td>
               <td>
                 <button class="removeButton" data-item-id="<%= cartItem.get("itemID") %>">Remove</button>
@@ -78,6 +78,39 @@
           <div class="span-16 center">
             <i>No items in cart.</i>
           </div>
+        <% } else { %>
+          <table>
+            <tr>
+              <td width="200px">&nbsp;</td>
+              <td>
+                Subtotal:<br>
+                Shipping & Handling:<br>
+                Total:
+              </td>
+              <td>
+                <% var inv = inventory;
+
+                   function add(total, item) {
+                     return total +
+                       item.get("count") * inv.get(item.get("itemID")).get("salePrice");
+                   }
+
+                   var subtotal = items.reduce(add, 0),
+                       count = items.size(),
+                       shipping = 4 + items.size(); %>
+
+                $<%= subtotal.toFixed(2) %><br>
+                $<%= shipping.toFixed(2) %><br>
+                $<%= (subtotal + shipping).toFixed(2) %>
+              </td>
+              <td>
+                <button id="updateButton">Update</button>
+              </td>
+              <td>
+                <button id="checkoutButton">Checkout</button>
+              </td>
+            </tr>
+          </table>
         <% } %>
       </div>
       <div class="span-1 last">&nbsp;</div>

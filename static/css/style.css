@@ -53,6 +53,10 @@ div.relative {
   position: relative;
 }
 
+div.right {
+  text-align: right;
+}
+
 h1.title {
   color: #f0f0f0;
   margin-left: 20px;
