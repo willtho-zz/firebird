@@ -16,7 +16,8 @@ firebird.CartView = Backbone.View.extend({
 
     self.$el.html(self.cartViewTemplate({
       inventory: firebird.inventory,
-      items: firebird.cart
+      items: firebird.cart,
+      app: firebird.app
     }));
 
     setTimeout(function() {

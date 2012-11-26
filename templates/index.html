@@ -97,11 +97,14 @@
 
                    var subtotal = items.reduce(add, 0),
                        count = items.size(),
-                       shipping = 4 + items.size(); %>
+                       shipping = 4 + items.size();
+
+                   // this is bad code and I'm a bad person for writing it
+                   app.total = subtotal + shipping; %>
 
                 $<%= subtotal.toFixed(2) %><br>
                 $<%= shipping.toFixed(2) %><br>
-                $<%= (subtotal + shipping).toFixed(2) %>
+                $<%= app.total.toFixed(2) %>
               </td>
               <td>
                 <button id="updateButton">Update</button>
@@ -116,7 +119,86 @@
       <div class="span-1 last">&nbsp;</div>
     </script>
     <script id="checkoutViewTemplate" type="text/template">
-      checkout
+      <div class="span-1">&nbsp;</div>
+      <div class="span-16">
+        <br>
+        <h4><b>Shipping Information</b></h4>
+        <table>
+          <tr>
+            <td>Name:</td>
+            <td><input id="shippingName"></td>
+          </tr>
+          <tr>
+            <td>Address Line 1:</td>
+            <td><input id="shippingAddress1"></td>
+          </tr>
+          <tr>
+            <td>Address Line 2:</td>
+            <td><input id="shippingAddress2"></td>
+          </tr>
+          <tr>
+            <td>City:</td>
+            <td><input id="shippingCity"></td>
+          </tr>
+          <tr>
+            <td>State:</td>
+            <td><input id="shippingState"></td>
+          </tr>
+          <tr>
+            <td>Zip Code:</td>
+            <td><input id="shippingZipCode"></td>
+          </tr>
+        </table>
+        <br>
+        <h4><b>Billing Information</b></h4>
+        <input type="checkbox" id="same" checked="checkd"> Same as Shipping Information
+        <table id="billingTable" style="display: none;">
+          <tr>
+            <td>Name:</td>
+            <td><input id="billingName"></td>
+          </tr>
+          <tr>
+            <td>Address Line 1:</td>
+            <td><input id="billingAddress1"></td>
+          </tr>
+          <tr>
+            <td>Address Line 2:</td>
+            <td><input id="billingAddress2"></td>
+          </tr>
+          <tr>
+            <td>City:</td>
+            <td><input id="billingCity"></td>
+          </tr>
+          <tr>
+            <td>State:</td>
+            <td><input id="billingState"></td>
+          </tr>
+          <tr>
+            <td>Zip Code:</td>
+            <td><input id="billingZipCode"></td>
+          </tr>
+        </table>
+        <div class="span-16 last">&nbsp;</div>
+        <h4><b>Credit Card Information:</b></h4>
+        <table>
+          <tr>
+            <td>Name on Card:</td>
+            <td><input id="cardName"></td>
+          </tr>
+          <tr>
+            <td>Card Number:</td>
+            <td><input id="cardNumber"></td>
+          </tr>
+          <tr>
+            <td>Card Security Number:</td>
+            <td><input id="cardSecurityNumber"></td>
+          </tr>
+        </table>
+        <div class="span-16 last"><h3><b>Total: $<%= total.toFixed(2) %></b></h3></div>
+        <div class="span-16 last"><button id="completeOrder">Complete Order</button></div>
+        <div class="span-16 last">&nbsp;</div>
+      </div>
+      <div class="span-1 last">&nbsp;</div>
     </script>
     <script id="inventoryViewTemplate" type="text/template">
       <h2 class="title"><%= category %></h2>
