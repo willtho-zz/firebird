@@ -31,7 +31,15 @@ firebird.CartView = Backbone.View.extend({
         self.$(".quantityInput").each(function() {
           var id = $(this).data("item-id");
 
-          firebird.cart.where({ itemID: id })[0].set("count", parseInt($(this).val()));
+          // find the item in the cart and get the new count
+          var item = firebird.cart.where({ itemID: id })[0],
+              count = parseInt($(this).val());
+
+          if (count > 0)
+            item.set("count", count);
+          else
+            // if count <= 0, remove the item
+            firebird.cart.remove(item);
         });
 
         firebird.app.navigateCart();
