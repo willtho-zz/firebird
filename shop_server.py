@@ -19,12 +19,23 @@ def icon():
     return redirect( url_for( "static", filename="favicon.ico" ) )
 
 @app.route("/api/categories", methods=['GET', 'POST'])
-def get_categories():
+@app.route("/api/categories/<id>", methods=['PUT', 'DELETE', 'GET'])
+def get_categories(id=None):
     """Return a list of categories"""
-    if request.method == 'GET':
-        return '[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']'
-    elif request.method == 'POST':
-        pass
+    if id != None:
+        if request.method == 'GET':
+            pass
+        elif request.method == 'DELETE':
+            db.del_category( id )
+        elif request.method == 'PUT':
+            db.update_category( id, request.form['name'] )
+    else:
+        if request.method == 'GET':
+            return '[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']'
+        elif request.method == 'POST':
+            db.add_category( request.form['name'] )
+
+    return index()
 
 @app.route("/upload", methods=['GET', 'POST'])
 def upload():
