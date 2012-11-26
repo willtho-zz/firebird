@@ -1,11 +1,13 @@
-from flask import Flask, url_for, redirect, jsonify, request, render_template, send_from_directory
+from flask import Flask, url_for, redirect, jsonify, request, render_template, send_from_directory, session, escape
 from werkzeug import secure_filename
 import db_driver
 import os
 app = Flask(__name__)
 
-UPLOAD_FOLDER = '/home/will/code/firebird/uploaded_file'
+app.secret_key = 'jklsdhafuiasrm,asdf,mbjk'
+UPLOAD_FOLDER = 'uploaded_file'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 db = db_driver.database('test.db')
 #replace with code to make sure the schemas match
 if not os.path.exists( 'test.db' ):
@@ -32,15 +34,46 @@ def upload():
             filename = secure_filename( tmpfile.filename )  
             tmpfile.save( os.path.join( app.config['UPLOAD_FOLDER'], filename ) )
             return redirect( url_for( 'uploaded_file', filename=filename ) )
+
     return '''
         <!doctype html>
-            <title>Upload new File</title>
-                <h1>Upload new File</h1>
-                    <form action="" method=post enctype=multipart/form-data>
-                          <p><input type=file name=file>
-                                   <input type=submit value=Upload>
-                                       </form>
-                                           '''
+        <title>Upload new File</title>
+        <h1>Upload new File</h1>
+        <form action="" method=post enctype=multipart/form-data>
+        <p><input type=file name=file>
+        <input type=submit value=Upload>
+        </form>
+        '''
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        user = request.form['username']
+        password =  request.form['password']
+
+        if db.authenticate( user, password ) == True:
+            session['username'] = user
+        return redirect( url_for( 'index' ) )
+
+    return  '''
+            <form action="" method="post">
+            <p><input type=text name=username>
+            <p><input type=text name=password>
+            <p><input type=submit value=Login>
+            </form>
+            '''
+
+@app.route('/logout')
+def logout():
+    session.pop( 'username', None )
+    return redirect( url_for( 'index' ) )
+
+@app.route('/checklogin')
+def checklogin():
+    if 'username' in session:
+        return 'Logged in as %s' % escape(session['username'])
+    else:
+        return "You are not logged in"
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
