@@ -1,6 +1,7 @@
 from flask import Flask, url_for, redirect, jsonify, request, render_template, send_from_directory, session, escape
 from werkzeug import secure_filename
 import db_driver
+import smtplib
 import os
 app = Flask(__name__)
 
@@ -121,6 +122,21 @@ def get_items(uid=None):
         
     return index()
 
+@app.route('/checkout', methods=['PUT'])
+def checkout():
+    adminemail = ""
+    useremail = ""
+    for item in eval( request.form['items'] ):
+        olditem = db.get_item( item['id'] )
+        newitem = item
+        newitem['quantity'] = olditem['quantity'] - item['quantity']
+        db.edit( newitem )
+    mailserve = smtplib.SMTP( 'localhost' )
+    mailserve.set_debuglevel( 1 )
+    mailserve.sendmail( adminemail, [useremail, adminemail], "From: {admin}\r\nTo: {admin}, {user}\r\nSubject: Purchase\r\n\r\n Thank you!".format( admin=adminemail, user=useremail ) )
+    mailserve.quit()
+
+    return "Success"
 
 @app.route('/item/<id>')
 @app.route('/', defaults={'path': ''})
