@@ -97,7 +97,7 @@
 
                    var subtotal = items.reduce(add, 0),
                        count = items.size(),
-                       shipping = 4 + items.size();
+                       shipping = 4 + count;
 
                    // this is bad code and I'm a bad person for writing it
                    app.total = subtotal + shipping; %>
@@ -125,7 +125,7 @@
         <h4><b>Shipping Information</b></h4>
         <table>
           <tr>
-            <td>Name:</td>
+            <td width="150px">Name:</td>
             <td><input id="shippingName"></td>
           </tr>
           <tr>
@@ -154,7 +154,7 @@
         <input type="checkbox" id="same" checked="checkd"> Same as Shipping Information
         <table id="billingTable" style="display: none;">
           <tr>
-            <td>Name:</td>
+            <td width="150px">Name:</td>
             <td><input id="billingName"></td>
           </tr>
           <tr>
@@ -182,7 +182,7 @@
         <h4><b>Credit Card Information:</b></h4>
         <table>
           <tr>
-            <td>Name on Card:</td>
+            <td width="150px">Name on Card:</td>
             <td><input id="cardName"></td>
           </tr>
           <tr>
@@ -194,8 +194,12 @@
             <td><input id="cardSecurityNumber"></td>
           </tr>
         </table>
-        <div class="span-16 last"><h3><b>Total: $<%= total.toFixed(2) %></b></h3></div>
-        <div class="span-16 last"><button id="completeOrder">Complete Order</button></div>
+        <div class="span-16 last" style="text-align: center;">
+          <h3><b>Total: $<%= total.toFixed(2) %></b></h3>
+        </div>
+        <div class="span-16 last" style="text-align: center;">
+          <button id="completeOrder">Complete Order</button>
+        </div>
         <div class="span-16 last">&nbsp;</div>
       </div>
       <div class="span-1 last">&nbsp;</div>

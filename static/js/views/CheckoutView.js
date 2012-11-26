@@ -15,7 +15,7 @@ firebird.CheckoutView = Backbone.View.extend({
     var self = this;
 
     self.$el.html(self.checkoutViewTemplate({
-      total: firebird.app.total
+      total: firebird.app.total || 0
     }));
 
     setTimeout(function() {
