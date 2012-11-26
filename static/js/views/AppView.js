@@ -17,6 +17,7 @@ firebird.AppView = Backbone.View.extend({
     // create the child views
     self.views = {};
     self.views.cart = new firebird.CartView();
+    self.views.checkout = new firebird.CheckoutView();
     self.views.inventory = new firebird.InventoryView();
     self.views.item = new firebird.ItemView();
 
@@ -101,6 +102,18 @@ firebird.AppView = Backbone.View.extend({
     self.$categoryList.children("a").removeClass("bold");
     document.title = "James' Magic Shop - Shopping Cart";
     self.transition(self.views.cart);
+  },
+
+  navigateCheckout: function() {
+    var self = this;
+
+    self.category = -1;
+    self.query = "";
+
+    // update the UI
+    self.$categoryList.children("a").removeClass("bold");
+    document.title = "James' Magic Shop - Checkout";
+    self.transition(self.views.checkout);
   },
 
   navigateInventory: function(category, page, query) {

@@ -44,6 +44,11 @@ firebird.CartView = Backbone.View.extend({
 
         firebird.app.navigateCart();
       });
+
+      // checkout button
+      self.$("#checkoutButton").click(function() {
+        firebird.router.navigate("checkout", { trigger: true });
+      });
     }, 350);
 
     return self.$el;

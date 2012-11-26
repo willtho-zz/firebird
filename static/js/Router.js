@@ -8,6 +8,7 @@ firebird.Router = Backbone.Router.extend({
   routes: {
     "":                               "navigateHome",
     "cart":                           "navigateCart",
+    "checkout":                       "navigateCheckout",
     "item/:id":                       "navigateItem",
     "shop/:category/p:page":          "navigateInventory",
     "search/:query/:category/p:page": "navigateInventorySearch"
@@ -21,6 +22,10 @@ firebird.Router = Backbone.Router.extend({
   // for each route, call the corresponding function in the AppView
   navigateCart: function() {
     firebird.app.navigateCart();
+  },
+
+  navigateCheckout: function() {
+    firebird.app.navigateCheckout();
   },
 
   navigateHome: function() {
