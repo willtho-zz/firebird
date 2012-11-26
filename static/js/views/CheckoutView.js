@@ -12,8 +12,21 @@ firebird.CheckoutView = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.html(this.checkoutViewTemplate());
-    return this.$el;
+    var self = this;
+
+    self.$el.html(self.checkoutViewTemplate({
+      total: firebird.app.total || 0
+    }));
+
+    setTimeout(function() {
+      // "billing info same as shipping" checkbox
+      self.$("#same").click(function() {
+        // show or hide the billing info table
+        self.$("#billingTable")[$(this).attr("checked") ? "hide" : "show"]("slow");
+      });
+    }, 350);
+
+    return self.$el;
   }
 
 });
