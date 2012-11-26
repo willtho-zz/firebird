@@ -91,7 +91,20 @@ class database(object):
     def add_category(self, category):
         """add a new category"""
         cursor = self.connect()
-        cursor.execute( "INSERT INTO categories(name) VALUES ('{}')".format( category ))
+        cursor.execute( "INSERT INTO categories(category) VALUES ('{}')".format( category ))
         cursor.close()
         self.conn.commit()
 
+    def del_category( self, id):
+        """Deletes a category"""
+        cursor = self.connect()
+        cursor.execute( "DELETE FROM categories WHERE id={}".format( id ) )
+        cursor.close()
+        self.conn.commit()
+
+    def update_category(self, id, name):
+        """Update the category"""
+        cursor = self.connect()
+        cursor.execute( "UPDATE categories SET category='{}' WHERE id={}".format( name, id ) )
+        cursor.close()
+        self.conn.commit()
