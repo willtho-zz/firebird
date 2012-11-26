@@ -107,16 +107,19 @@ def js(name, folder=None):
 def get_items(uid=None): 
     """Return a list of items"""
     if uid == None: 
-        return '[' + ','.join([jsonify(x).data for x in db.get_items()]) + ']'
+        if request.method == 'GET':
+            return '[' + ','.join([jsonify(x).data for x in db.get_items()]) + ']'
+        elif request.method == 'POST':
+            db.add( request.form )
     else:
         if request.method == 'DELETE':
             db.remove( uid )
         elif request.method == 'PUT':
-            pass
+            db.edit( request.form )
         elif request.method == 'GET':
             return jsonify( db.get_item( uid ) )
-        else:
-            pass
+        
+    return index()
 
 
 @app.route('/item/<id>')
