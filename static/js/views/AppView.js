@@ -44,7 +44,7 @@ firebird.AppView = Backbone.View.extend({
     });
 
     // update the category list when the categories change
-    firebird.categories.on("add remove reset", function() {
+    firebird.categories.on("add create remove reset", function() {
       // handler for category link
       function navigateCategory(e) {
         // navigate to the correct category
@@ -82,6 +82,18 @@ firebird.AppView = Backbone.View.extend({
           e.preventDefault();
         });
         self.$categoryList.find("a.addLink").click(function(e) {
+          var dialog = firebird.modalDialog("Add Category", "<form>Name: <input id='name'></form>", {
+            "Add": function() {
+              dialog.find("form").submit();
+            },
+            "Cancel": function() {
+              dialog.dialog("close");
+            }
+          }).find("form").submit(function(e) {
+            firebird.categories.create({ name: dialog.find("#name").val() });
+            dialog.dialog("close");
+            e.preventDefault();
+          });
           e.preventDefault();
         });
       }, 50);
@@ -127,7 +139,7 @@ firebird.AppView = Backbone.View.extend({
           firebird.app.loggedIn = false;
           self.$loginLink.html("Log In");
           Notifier.success("Logged out.");
-          firebird.categories.trigger("change");
+          firebird.categories.trigger("reset");
         });
       }
       else {
@@ -140,7 +152,7 @@ firebird.AppView = Backbone.View.extend({
             firebird.app.loggedIn = true;
             self.$loginLink.html("Log Out");
             dialog.dialog("close");
-            firebird.categories.trigger("change");
+            firebird.categories.trigger("reset");
             Notifier.success("Logged in.");
           }).error(function() {
             Notifier.error("Could not log in.");
