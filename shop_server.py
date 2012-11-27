@@ -70,9 +70,9 @@ def login():
 
         if db.authenticate( user, password ) == True:
             session['username'] = user
-            return 200
+            return ('', 200)
         else:
-            return 401
+            return ('', 401)
 
 @app.route('/logout')
 def logout():
@@ -113,16 +113,16 @@ def get_items(uid=None):
         elif request.method == 'POST':
             #add new item
             db.add( request.json )
-            return 200
+            return ('', 200)
     else:
         if request.method == 'DELETE':
             #delete an item
             db.remove( uid )
-            return 200
+            return ('', 200)
         elif request.method == 'PUT':
             #edit an item
             db.edit( uid, request.json )
-            return 200
+            return ('', 200)
         elif request.method == 'GET':
             #get an item
             return jsonify( db.get_item( uid ) )
