@@ -44,7 +44,7 @@ firebird.AppView = Backbone.View.extend({
     });
 
     // update the category list when the categories change
-    firebird.categories.on("all", function() {
+    firebird.categories.on("add remove reset", function() {
       // handler for category link
       function navigateCategory(e) {
         // navigate to the correct category
@@ -66,6 +66,11 @@ firebird.AppView = Backbone.View.extend({
       })).find("a").each(function() {
         var $this = $(this);
         $this.html($this.html().trim());
+      }).filter(".categoryLink").each(function() {
+        var $this = $(this), id = $this.data("category-id");
+
+        if ("category" in self.views.inventory && id == self.views.inventory.category)
+          $this.addClass("bold");
       });
       setTimeout(function() {
         self.$categoryList.find("a.categoryLink").click(navigateCategory);
@@ -173,7 +178,7 @@ firebird.AppView = Backbone.View.extend({
     self.query = "";
 
     // update the UI
-    self.$categoryList.children("a").removeClass("bold");
+    self.$categoryList.children("a.categoryLink").removeClass("bold");
     document.title = "James' Magic Shop - Shopping Cart";
     self.transition(self.views.cart);
   },
@@ -185,7 +190,7 @@ firebird.AppView = Backbone.View.extend({
     self.query = "";
 
     // update the UI
-    self.$categoryList.children("a").removeClass("bold");
+    self.$categoryList.children("a.categoryLink").removeClass("bold");
     document.title = "James' Magic Shop - Checkout";
     self.transition(self.views.checkout);
   },
@@ -197,7 +202,7 @@ firebird.AppView = Backbone.View.extend({
     self.query = query;
 
     // update the UI
-    self.$categoryList.children("a").removeClass("bold").each(function() {
+    self.$categoryList.children("a.categoryLink").removeClass("bold").each(function() {
       var $this = $(this), id = $this.data("category-id");
 
       if (id == category)
@@ -217,7 +222,7 @@ firebird.AppView = Backbone.View.extend({
     self.query = "";
 
     // update the UI
-    self.$categoryList.children("a").removeClass("bold");
+    self.$categoryList.children("a.categoryLink").removeClass("bold");
     document.title = "James' Magic Shop - " + firebird.inventory.get(id).get("name");
 
     self.views.item.setID(id);
