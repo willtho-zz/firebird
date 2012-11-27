@@ -38,6 +38,7 @@ INSERT INTO inventory(name, category, quantity, price, salePrice, description) V
 INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('Houdini''s School of Magic Vol. 1', 4, 5, 15.00, 15.00, 'Prepared to get schooled!');
 INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('Coin in the Balloon', 4, 5, 20.00, 20.00, 'The key here is to put the coin inside the balloon before you blow it up. There, I saved you like 20 bucks.');
 INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('A Wand', 3, 5, 10.00, 9.00, 'Need a wizard hat...');
+INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('The Force', 2, 5, 1000.00, 900.00, 'The force is strong with this one.');
 INSERT INTO categories(category) VALUES ('Bottles');
 INSERT INTO categories(category) VALUES ('Hats');
 INSERT INTO categories(category) VALUES ('Wands');
