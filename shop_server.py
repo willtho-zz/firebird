@@ -32,14 +32,14 @@ def get_categories(uid=None):
             db.del_category( uid )
         elif request.method == 'PUT':
             #update category
-            db.update_category( uid, request.form['name'] )
+            db.update_category( uid, request.json['name'])
     else:
         if request.method == 'GET':
             #get all categories
             return '[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']'
         elif request.method == 'POST':
             #add category
-            db.add_category( eval(request.data)['name'] )
+            db.add_category( request.json['name'])
 
     return index()
 
@@ -133,7 +133,7 @@ def get_items(uid=None):
         
     return index()
 
-@app.route('/checkout', methods=['PUT'])
+@app.route("/checkout", methods=['PUT'])
 def checkout():
     adminemail = ""
     useremail = ""
