@@ -3,6 +3,15 @@
 
 var firebird = firebird || {};
 
+firebird.modalDialog = function(title, contents, buttons) {
+  return $("<div title=\"" + title + "\">" + contents + "</div>").dialog({
+    buttons: buttons,
+    draggable: false,
+    modal: true,
+    resizable: false
+  });
+}
+
 firebird.AppView = Backbone.View.extend({
 
   initialize: function() {
@@ -52,11 +61,25 @@ firebird.AppView = Backbone.View.extend({
 
       // fill in the category list and add handlers to the links
       self.$categoryList.html(self.categoryListTemplate({
-        categories: firebird.categories
-      })).find("a").click(navigateCategory).each(function() {
+        categories: firebird.categories,
+        admin: firebird.app.loggedIn
+      })).find("a").each(function() {
         var $this = $(this);
         $this.html($this.html().trim());
       });
+      setTimeout(function() {
+        self.$categoryList.find("a.categoryLink").click(navigateCategory);
+        self.$categoryList.find("a.editLink").click(function(e) {
+          e.preventDefault();
+        });
+        self.$categoryList.find("a.removeLink").click(function(e) {
+          firebird.categories.get($(this).data("category-id")).destroy();
+          e.preventDefault();
+        });
+        self.$categoryList.find("a.addLink").click(function(e) {
+          e.preventDefault();
+        });
+      }, 50);
     });
 
     // set up the "View Cart" link handler
@@ -99,23 +122,11 @@ firebird.AppView = Backbone.View.extend({
           firebird.app.loggedIn = false;
           self.$loginLink.html("Log In");
           Notifier.success("Logged out.");
+          firebird.categories.trigger("change");
         });
       }
       else {
         // log in
-        var dialog = $("<div title='Log In'>\
-                          <form>\
-                            <input type='text' id='name'>\
-                            <input type='password' id='pass'>\
-                          </form>\
-                        </div>");
-
-        // submit form when "enter" is pressed
-        dialog.find("#name").add("#pass").keypress(function(e) {
-          if (e.keyCode == 13)
-            dialog.find("form").submit();
-        });
-
         function logIn() {
           $.post("/login", {
             username: dialog.find("#name").val(),
@@ -124,27 +135,31 @@ firebird.AppView = Backbone.View.extend({
             firebird.app.loggedIn = true;
             self.$loginLink.html("Log Out");
             dialog.dialog("close");
+            firebird.categories.trigger("change");
             Notifier.success("Logged in.");
           }).error(function() {
             Notifier.error("Could not log in.");
           });
         }
 
-        dialog.find("form").submit(function(e) {
-          logIn();
-          e.preventDefault();
-        });
-
-        dialog.dialog({
-          buttons: {
+        var dialog = firebird.modalDialog("Log In",
+          "<form><input type='text' id='name'><input type='password' id='pass'></form>",
+          {
             "Log In": logIn,
             "Cancel": function() {
               dialog.dialog("close");
             }
-          },
-          draggable: false,
-          modal: true,
-          resizable: false
+          });
+        
+        // submit form when "enter" is pressed
+        dialog.find("#name").add(dialog.find("#pass")).keypress(function(e) {
+          if (e.keyCode == 13)
+            dialog.find("form").submit();
+        });
+
+        dialog.find("form").submit(function(e) {
+          logIn();
+          e.preventDefault();
         });
       }
     });
