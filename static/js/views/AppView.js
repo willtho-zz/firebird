@@ -112,18 +112,35 @@ firebird.AppView = Backbone.View.extend({
                             <input type='password' id='pass'>\
                           </form>\
                         </div>");
+
+        // submit form when "enter" is pressed
+        dialog.find("#name").add("#pass").keypress(function(e) {
+          if (e.keyCode == 13)
+            dialog.find("form").submit();
+        });
+
+        function logIn() {
+          $.post("/login", {
+            username: dialog.find("#name").val(),
+            password: dialog.find("#pass").val()
+          }, function() {
+            firebird.app.loggedIn = true;
+            self.$loginLink.html("Log Out");
+            dialog.dialog("close");
+            Notifier.success("Logged in.");
+          }).error(function() {
+            Notifier.error("Could not log in.");
+          });
+        }
+
+        dialog.find("form").submit(function(e) {
+          logIn();
+          e.preventDefault();
+        });
+
         dialog.dialog({
           buttons: {
-            "Log In": function() {
-              $.post("/login", {
-                username: dialog.find("#name").val(),
-                password: dialog.find("#pass").val()
-              }, function() {
-                firebird.app.loggedIn = true;
-                self.$loginLink.html("Log Out");
-                Notifier.success("Logged in.");
-              });
-            },
+            "Log In": logIn,
             "Cancel": function() {
               dialog.dialog("close");
             }
