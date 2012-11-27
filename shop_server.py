@@ -20,16 +20,16 @@ def icon():
     return redirect( url_for( "static", filename="favicon.ico" ) )
 
 @app.route("/api/categories", methods=['GET', 'POST'])
-@app.route("/api/categories/<id>", methods=['PUT', 'DELETE', 'GET'])
-def get_categories(id=None):
+@app.route("/api/categories/<uid>", methods=['PUT', 'DELETE', 'GET'])
+def get_categories(uid=None):
     """Return a list of categories"""
-    if id != None:
+    if uid != None:
         if request.method == 'GET':
             pass
         elif request.method == 'DELETE':
-            db.del_category( id )
+            db.del_category( uid )
         elif request.method == 'PUT':
-            db.update_category( id, request.form['name'] )
+            db.update_category( uid, request.form['name'] )
     else:
         if request.method == 'GET':
             return '[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']'
@@ -141,11 +141,11 @@ def checkout():
 @app.route('/item/<id>')
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
-def index(path=None, id=None):
+def index(path=None, uid=None):
     """return a redirect to the index.html page"""
     tmpitem = None
-    if id != None:
-        tmpitem = jsonify( db.get_item( id ) ).data
+    if uid != None:
+        tmpitem = jsonify( db.get_item( uid ) ).data
     return render_template('index.html', categories='[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']', item=tmpitem)
 
 if __name__ == '__main__':
