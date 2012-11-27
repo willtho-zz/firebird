@@ -39,7 +39,7 @@ def get_categories(uid=None):
             return '[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']'
         elif request.method == 'POST':
             #add category
-            db.add_category( request.form['name'].strip() )
+            db.add_category( eval(request.data)['name'] )
 
     return index()
 
