@@ -138,7 +138,7 @@ def checkout():
 
     return "Success"
 
-@app.route('/item/<id>')
+@app.route('/item/<uid>')
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def index(path=None, uid=None):
