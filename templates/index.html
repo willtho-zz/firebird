@@ -122,6 +122,15 @@
       </div>
       <div class="span-1 last">&nbsp;</div>
     </script>
+    <script id="categoryListTemplate" type="text/template">
+      <a href='' class='dark' data-category-id='0'>All Items</a><br>
+      <% categories.each(function(category) { %>
+        <br>
+        <a href='' class='dark' data-category-id='<%= category.get("id") %>'>
+          <%= category.get("name") %>
+        </a>
+      <% }); %>
+    </script>
     <script id="checkoutViewTemplate" type="text/template">
       <div class="span-1">&nbsp;</div>
       <div class="span-16">

@@ -74,7 +74,7 @@ def login():
         else:
             return ('', 401)
 
-@app.route('/logout')
+@app.route('/logout', methods=['POST'])
 def logout():
     session.pop( 'username', None )
     return redirect( url_for( 'index' ) )

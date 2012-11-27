@@ -8,6 +8,8 @@ firebird.AppView = Backbone.View.extend({
   initialize: function() {
     var self = this;
 
+    self.categoryListTemplate = _.template($("#categoryListTemplate").html());
+
     // cache HTML elements
     self.$cartItemCount = self.$("#cartItemCount");
     self.$categoryList = self.$("#categoryList");
@@ -48,17 +50,12 @@ firebird.AppView = Backbone.View.extend({
         e.preventDefault();
       }
 
-      // add the "All Items" link and set up the click handler
-      self.$categoryList.html("<a href='' class='dark'>All Items</a><br><br>");
-      self.$categoryList.children("a").data("category-id", 0).click(navigateCategory);
-
-      // add a link for each category
-      firebird.categories.each(function(category) {
-        var $a = $("<a href='' class='dark'>" + category.get("name") + "</a>");
-        $a.data("category-id", category.get("id"));
-        $a.click(navigateCategory);
-
-        self.$categoryList.append($a).append("<br>");
+      // fill in the category list and add handlers to the links
+      self.$categoryList.html(self.categoryListTemplate({
+        categories: firebird.categories
+      })).find("a").click(navigateCategory).each(function() {
+        var $this = $(this);
+        $this.html($this.html().trim());
       });
     });
 
