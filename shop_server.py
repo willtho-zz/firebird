@@ -82,9 +82,9 @@ def logout():
 @app.route('/checklogin')
 def checklogin():
     if 'username' in session:
-        return 'Logged in as %s' % escape(session['username'])
+        return True
     else:
-        return "You are not logged in"
+        return False
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -152,7 +152,7 @@ def index(path=None, uid=None):
     tmpitem = None
     if uid != None:
         tmpitem = jsonify( db.get_item( uid ) ).data
-    return render_template('index.html', categories='[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']', item=tmpitem)
+    return render_template('index.html', categories='[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']', item=tmpitem, logged_in=checklogin())
 
 if __name__ == '__main__':
     app.debug = True
