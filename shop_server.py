@@ -25,16 +25,21 @@ def get_categories(uid=None):
     """Return a list of categories"""
     if uid != None:
         if request.method == 'GET':
-            pass
+            #return a category 
+            return jsonify( db.get_category( uid ) ) 
         elif request.method == 'DELETE':
+            #delete category
             db.del_category( uid )
         elif request.method == 'PUT':
+            #update category
             db.update_category( uid, request.form['name'] )
     else:
         if request.method == 'GET':
+            #get all categories
             return '[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']'
         elif request.method == 'POST':
-            db.add_category( request.form['name'] )
+            #add category
+            db.add_category( request.form['name'].strip() )
 
     return index()
 
@@ -75,6 +80,7 @@ def login():
             </form>
             '''
 
+
 @app.route('/logout')
 def logout():
     session.pop( 'username', None )
@@ -109,15 +115,20 @@ def get_items(uid=None):
     """Return a list of items"""
     if uid == None: 
         if request.method == 'GET':
+            #get all items
             return '[' + ','.join([jsonify(x).data for x in db.get_items()]) + ']'
         elif request.method == 'POST':
-            db.add( request.form )
+            #add new item
+            db.add( request.data )
     else:
         if request.method == 'DELETE':
+            #delete an item
             db.remove( uid )
         elif request.method == 'PUT':
-            db.edit( request.form )
+            #edit an item
+            db.edit( request.data )
         elif request.method == 'GET':
+            #get an item
             return jsonify( db.get_item( uid ) )
         
     return index()

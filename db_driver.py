@@ -95,16 +95,25 @@ class database(object):
         cursor.close()
         self.conn.commit()
 
-    def del_category( self, id):
+    def del_category( self, uid):
         """Deletes a category"""
         cursor = self.connect()
-        cursor.execute( "DELETE FROM categories WHERE id={}".format( id ) )
+        cursor.execute( "DELETE FROM categories WHERE id={}".format( uid ) )
         cursor.close()
         self.conn.commit()
 
-    def update_category(self, id, name):
+    def update_category(self, uid, name):
         """Update the category"""
         cursor = self.connect()
-        cursor.execute( "UPDATE categories SET category='{}' WHERE id={}".format( name, id ) )
+        cursor.execute( "UPDATE categories SET category='{}' WHERE id={}".format( name, uid ) )
         cursor.close()
         self.conn.commit()
+
+    def get_category(self, uid):
+        """Return category with uid"""
+        cursor = self.connect()
+        tmp = cursor.execute( "SELECT * FROM categories WHERE id={}".format( uid ) )
+        tmp = tmp.fetchall()
+        tmp = tmp[0]
+        return {"id": tmp[0], "name": tmp[1]}
+
