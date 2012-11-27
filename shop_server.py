@@ -72,15 +72,6 @@ def login():
             session['username'] = user
         return redirect( url_for( 'index' ) )
 
-    return  '''
-            <form action="" method="post">
-            <p><input type=text name=username>
-            <p><input type=text name=password>
-            <p><input type=submit value=Login>
-            </form>
-            '''
-
-
 @app.route('/logout')
 def logout():
     session.pop( 'username', None )
@@ -119,14 +110,14 @@ def get_items(uid=None):
             return '[' + ','.join([jsonify(x).data for x in db.get_items()]) + ']'
         elif request.method == 'POST':
             #add new item
-            db.add( request.data )
+            db.add( request.json )
     else:
         if request.method == 'DELETE':
             #delete an item
             db.remove( uid )
         elif request.method == 'PUT':
             #edit an item
-            db.edit( request.data )
+            db.edit( request.json )
         elif request.method == 'GET':
             #get an item
             return jsonify( db.get_item( uid ) )
