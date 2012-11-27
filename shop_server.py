@@ -62,7 +62,7 @@ def upload():
         </form>
         '''
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def login():
     if request.method == 'POST':
         user = request.form['username']
@@ -70,7 +70,9 @@ def login():
 
         if db.authenticate( user, password ) == True:
             session['username'] = user
-        return redirect( url_for( 'index' ) )
+            return 200
+        else:
+            return 401
 
 @app.route('/logout')
 def logout():
@@ -111,18 +113,20 @@ def get_items(uid=None):
         elif request.method == 'POST':
             #add new item
             db.add( request.json )
+            return 200
     else:
         if request.method == 'DELETE':
             #delete an item
             db.remove( uid )
+            return 200
         elif request.method == 'PUT':
             #edit an item
-            db.edit( request.json )
+            db.edit( uid, request.json )
+            return 200
         elif request.method == 'GET':
             #get an item
             return jsonify( db.get_item( uid ) )
         
-    return index()
 
 @app.route("/checkout", methods=['PUT'])
 def checkout():
