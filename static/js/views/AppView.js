@@ -12,6 +12,7 @@ firebird.AppView = Backbone.View.extend({
     self.$cartItemCount = self.$("#cartItemCount");
     self.$categoryList = self.$("#categoryList");
     self.$contentDiv = self.$("#contentDiv");
+    self.$loginLink = self.$("#loginLink");
     self.$searchText = self.$("#searchText");
 
     // create the child views
@@ -88,6 +89,50 @@ firebird.AppView = Backbone.View.extend({
       var category = Math.max(self.category, 0),
           url = "search/" + query + "/" + category + "/p1";
       firebird.router.navigate(url, { trigger: true });
+    });
+
+    // login link handler
+    self.$loginLink.html(self.$loginLink.html().trim());
+    self.$loginLink.click(function(e) {
+      e.preventDefault();
+
+      if (firebird.app.loggedIn) {
+        // log out
+        $.post("/logout", function() {
+          firebird.app.loggedIn = false;
+          self.$loginLink.html("Log In");
+          Notifier.success("Logged out.");
+        });
+      }
+      else {
+        // log in
+        var dialog = $("<div title='Log In'>\
+                          <form>\
+                            <input type='text' id='name'>\
+                            <input type='password' id='pass'>\
+                          </form>\
+                        </div>");
+        dialog.dialog({
+          buttons: {
+            "Log In": function() {
+              $.post("/login", {
+                username: dialog.find("#name").val(),
+                password: dialog.find("#pass").val()
+              }, function() {
+                firebird.app.loggedIn = true;
+                self.$loginLink.html("Log Out");
+                Notifier.success("Logged in.");
+              });
+            },
+            "Cancel": function() {
+              dialog.dialog("close");
+            }
+          },
+          draggable: false,
+          modal: true,
+          resizable: false
+        });
+      }
     });
   },
 
