@@ -4,12 +4,23 @@
 var firebird = firebird || {};
 
 firebird.modalDialog = function(title, contents, buttons) {
-  return $("<div title=\"" + title + "\">" + contents + "</div>").dialog({
+  var dialog = $("<div title=\"" + title + "\">" + contents + "</div>").dialog({
     buttons: buttons,
     draggable: false,
     modal: true,
     resizable: false
   });
+
+  return dialog;
+}
+
+firebird.modalDialog2 = function(title, contents, buttons) {
+  var dialog = firebird.modalDialog(title, contents, buttons);
+  dialog.find("form > input").keypress(function(e) {
+    if (e.keyCode == 13)
+      dialog.find("form").submit();
+  });
+  return dialog;
 }
 
 firebird.AppView = Backbone.View.extend({
@@ -44,7 +55,7 @@ firebird.AppView = Backbone.View.extend({
     });
 
     // update the category list when the categories change
-    firebird.categories.on("add create remove reset", function() {
+    firebird.categories.on("add create remove reset change", function() {
       // handler for category link
       function navigateCategory(e) {
         // navigate to the correct category
@@ -73,14 +84,35 @@ firebird.AppView = Backbone.View.extend({
           $this.addClass("bold");
       });
       setTimeout(function() {
+        // category link changes category
         self.$categoryList.find("a.categoryLink").click(navigateCategory);
+
+        // edit category link opens edit dialog
         self.$categoryList.find("a.editLink").click(function(e) {
+          var dialog = firebird.modalDialog("Rename Category", "<form>New Name: <input type='text' id='name'></form>", {
+            "Rename": function() {
+              dialog.find("form").submit();
+            },
+            "Cancel": function() {
+              dialog.dialog("close");
+            }
+          }).submit(function(e) {
+            dialog.category.save({ name: dialog.find("#name").val() });
+            dialog.dialog("close");
+            e.preventDefault();
+          });
+          dialog.category = firebird.categories.get($(this).data("category-id"));
+
           e.preventDefault();
         });
+
+        // remove link destroys the category
         self.$categoryList.find("a.removeLink").click(function(e) {
           firebird.categories.get($(this).data("category-id")).destroy();
           e.preventDefault();
         });
+
+        // add link opens a dialog to add a new category
         self.$categoryList.find("a.addLink").click(function(e) {
           var dialog = firebird.modalDialog("Add Category", "<form>Name: <input id='name'></form>", {
             "Add": function() {
@@ -144,7 +176,19 @@ firebird.AppView = Backbone.View.extend({
       }
       else {
         // log in
-        function logIn() {
+        var dialog = firebird.modalDialog2("Log In",
+          "<form><input type='text' id='name'><input type='password' id='pass'></form>",
+          {
+            "Log In": function() {
+              dialog.find("form").submit();
+            },
+            "Cancel": function() {
+              dialog.dialog("close");
+            }
+          });
+
+        // send the login request when the form is submitted
+        dialog.find("form").submit(function(e) {
           $.post("/login", {
             username: dialog.find("#name").val(),
             password: dialog.find("#pass").val()
@@ -157,25 +201,7 @@ firebird.AppView = Backbone.View.extend({
           }).error(function() {
             Notifier.error("Could not log in.");
           });
-        }
 
-        var dialog = firebird.modalDialog("Log In",
-          "<form><input type='text' id='name'><input type='password' id='pass'></form>",
-          {
-            "Log In": logIn,
-            "Cancel": function() {
-              dialog.dialog("close");
-            }
-          });
-        
-        // submit form when "enter" is pressed
-        dialog.find("#name").add(dialog.find("#pass")).keypress(function(e) {
-          if (e.keyCode == 13)
-            dialog.find("form").submit();
-        });
-
-        dialog.find("form").submit(function(e) {
-          logIn();
           e.preventDefault();
         });
       }

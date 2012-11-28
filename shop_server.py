@@ -33,6 +33,7 @@ def get_categories(uid=None):
         elif request.method == 'PUT':
             #update category
             db.update_category( uid, request.json['name'])
+            return jsonify( db.get_category( uid ) )
     else:
         if request.method == 'GET':
             #get all categories
