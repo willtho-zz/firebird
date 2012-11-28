@@ -80,7 +80,7 @@ firebird.AppView = Backbone.View.extend({
       }).filter(".categoryLink").each(function() {
         var $this = $(this), id = $this.data("category-id");
 
-        if ("category" in self.views.inventory && id == self.views.inventory.category)
+        if ("category" in self.views.inventory && id == self.category)
           $this.addClass("bold");
       });
       setTimeout(function() {
@@ -102,6 +102,7 @@ firebird.AppView = Backbone.View.extend({
             e.preventDefault();
           });
           dialog.category = firebird.categories.get($(this).data("category-id"));
+          dialog.find("#name").val(dialog.category.get("name"));
 
           e.preventDefault();
         });
@@ -127,6 +128,7 @@ firebird.AppView = Backbone.View.extend({
           });
           dialog.find("form").submit(function(e) {
             firebird.categories.create({ name: dialog.find("#name").val() });
+            setTimeout(function() { firebird.categories.fetch(); }, 250);
             dialog.dialog("close");
             e.preventDefault();
           });
