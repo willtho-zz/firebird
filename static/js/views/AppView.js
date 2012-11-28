@@ -108,6 +108,9 @@ firebird.AppView = Backbone.View.extend({
 
         // remove link destroys the category
         self.$categoryList.find("a.removeLink").click(function(e) {
+          if (self.views.inventory.category == $(this).data("category-id"))
+            firebird.router.navigate("shop/0/p1", { trigger: true });
+
           firebird.categories.get($(this).data("category-id")).destroy();
           e.preventDefault();
         });
@@ -121,7 +124,8 @@ firebird.AppView = Backbone.View.extend({
             "Cancel": function() {
               dialog.dialog("close");
             }
-          }).find("form").submit(function(e) {
+          });
+          dialog.find("form").submit(function(e) {
             firebird.categories.create({ name: dialog.find("#name").val() });
             dialog.dialog("close");
             e.preventDefault();
