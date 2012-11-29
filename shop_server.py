@@ -129,7 +129,7 @@ def get_items(uid=None):
             return jsonify( db.get_item( uid ) )
         
 
-@app.route("/checkout", methods=['PUT'])
+@app.route("/checkout", methods=['POST'])
 def checkout():
     adminemail = ""
     useremail = ""

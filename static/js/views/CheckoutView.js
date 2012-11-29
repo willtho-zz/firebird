@@ -24,6 +24,10 @@ firebird.CheckoutView = Backbone.View.extend({
         // show or hide the billing info table
         self.$("#billingTable")[$(this).attr("checked") ? "hide" : "show"]("slow");
       });
+
+      self.$("#completeOrder").click(function() {
+        
+      });
     }, 350);
 
     return self.$el;
