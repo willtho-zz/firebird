@@ -26,7 +26,20 @@ firebird.CheckoutView = Backbone.View.extend({
       });
 
       self.$("#completeOrder").click(function() {
-        
+        $.ajax("/checkout", {
+          contentType: "application/json",
+          data: JSON.stringify({
+            email: "",
+            items: firebird.cart.map(function(item) {
+              return { id: item.get("itemID"), quantity: item.get("count") };
+            })
+          }),
+          type: "POST",
+          success: function() {
+            firebird.inventory.fetch();
+            Notifier.success("Order completed");
+          }
+        });
       });
     }, 350);
 
