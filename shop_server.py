@@ -135,9 +135,9 @@ def checkout():
     useremail = ""
     for item in request.json['items']:
         olditem = db.get_item( item['id'] )
-        newitem = item
+        newitem = olditem
         newitem['quantity'] = olditem['quantity'] - item['quantity']
-        db.edit( newitem )
+        db.edit( newitem['id'], newitem )
 
     mailserve = smtplib.SMTP( 'localhost' )
     mailserve.set_debuglevel( 1 )
