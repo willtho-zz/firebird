@@ -133,11 +133,12 @@ def get_items(uid=None):
 def checkout():
     adminemail = ""
     useremail = ""
-    for item in eval( request.form['items'] ):
+    for item in request.json['items']:
         olditem = db.get_item( item['id'] )
         newitem = item
         newitem['quantity'] = olditem['quantity'] - item['quantity']
         db.edit( newitem )
+
     mailserve = smtplib.SMTP( 'localhost' )
     mailserve.set_debuglevel( 1 )
     mailserve.sendmail( adminemail, [useremail, adminemail], "From: {admin}\r\nTo: {admin}, {user}\r\nSubject: Purchase\r\n\r\n Thank you!".format( admin=adminemail, user=useremail ) )
