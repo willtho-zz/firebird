@@ -180,8 +180,8 @@ firebird.AppView = Backbone.View.extend({
           firebird.categories.trigger("reset");
 
           var url = location.pathname;
-          firebird.router.navigate("/login");
-          firebird.router.navigate(url, { trigger: true });
+          firebird.router.navigate("/logout", { replace: true });
+          firebird.router.navigate(url, { trigger: true, replace: true });
         });
       }
       else {
@@ -210,8 +210,8 @@ firebird.AppView = Backbone.View.extend({
             Notifier.success("Logged in.");
 
             var url = location.pathname;
-            firebird.router.navigate("/login");
-            firebird.router.navigate(url, { trigger: true });
+            firebird.router.navigate("/login", { replace: true });
+            firebird.router.navigate(url, { trigger: true, replace: true });
           }).error(function() {
             Notifier.error("Could not log in.");
           });
