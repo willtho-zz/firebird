@@ -178,6 +178,10 @@ firebird.AppView = Backbone.View.extend({
           self.$loginLink.html("Log In");
           Notifier.success("Logged out.");
           firebird.categories.trigger("reset");
+
+          var url = location.pathname;
+          firebird.router.navigate("/login");
+          firebird.router.navigate(url, { trigger: true });
         });
       }
       else {
@@ -204,6 +208,10 @@ firebird.AppView = Backbone.View.extend({
             dialog.dialog("close");
             firebird.categories.trigger("reset");
             Notifier.success("Logged in.");
+
+            var url = location.pathname;
+            firebird.router.navigate("/login");
+            firebird.router.navigate(url, { trigger: true });
           }).error(function() {
             Notifier.error("Could not log in.");
           });
