@@ -245,6 +245,14 @@
                   <b><%= item.name %></b>
                   <img class="item-preview" src="/static/img/item<%= item.id %>.png">
                 </a>
+                <% if (admin) { %>
+                  <a href="" class="dark deleteItemLink" data-item-id="<%= item.id %>">
+                    (delete)
+                  </a>
+                  <a href="" class="dark moveItemLink" data-item-id="<%= item.id %>">
+                    (move)
+                  </a>
+                <% } %>
                 <div class="center">
                   <% if (item.price == item.salePrice) { %>
                     <b>$<%= item.price.toFixed(2) %></b>
