@@ -48,7 +48,7 @@ class database(object):
 
     def edit(self, uid, item):
         cursor = self.connect()
-        cursor.execute( "UPDATE inventory SET name = '{}', category = {}, quantity = {}, price = {}, salePrice = {}, description = '{}' WHERE id = {}".format( item['name'], item['category'], item['quantity'], item['price'], item['salePrice'], item['description'], uid ) )
+        cursor.execute( """UPDATE inventory SET name = "{}", category = {}, quantity = {}, price = {}, salePrice = {}, description = "{}" WHERE id = {}""".format( item['name'], item['category'], item['quantity'], item['price'], item['salePrice'], item['description'], uid ) )
         cursor.close()
         self.conn.commit()
 
