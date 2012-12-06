@@ -15,14 +15,14 @@ class database(object):
     def setup(self):
         """Setup the database"""
         cursor = self.connect()
-        cursor.execute("CREATE TABLE inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, name unique, category integer, quantity integer, price real, salePrice real, description text)")
-        cursor.execute("CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname text, lastname text, username unique, password text, email text, admin boolean)")
-        cursor.execute("CREATE TABLE categories (id INTEGER PRIMARY KEY AUTOINCREMENT, category text)")
+        cursor.execute("""CREATE TABLE inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, name unique, category integer, quantity integer, price real, salePrice real, description text)""")
+        cursor.execute("""CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname text, lastname text, username unique, password text, email text, admin boolean)""")
+        cursor.execute("""CREATE TABLE categories (id INTEGER PRIMARY KEY AUTOINCREMENT, category text)""")
         cursor.close()
         
     def authenticate(self, username, password):
         cursor = self.connect()
-        cursor.execute( "SELECT password from users where username = '{}'".format( username ) );
+        cursor.execute( """SELECT password from users where username = "{}" """.format( username ) );
         tmp = cursor.fetchall()
         try:
             tmp = tmp[0][0]
@@ -36,13 +36,13 @@ class database(object):
 
     def add(self, item):
         cursor = self.connect()
-        cursor.execute( "INSERT INTO inventory( name, category, quantity, price, salePrice, description) VALUES ('{}', {}, {}, {}, {}, '{}')".format( item['name'], item['category'], item['quantity'], item['price'], item['salePrice'], item['description'] ) )
+        cursor.execute( """INSERT INTO inventory( name, category, quantity, price, salePrice, description) VALUES ("{}", {}, {}, {}, {}, "{}")""".format( item['name'], item['category'], item['quantity'], item['price'], item['salePrice'], item['description'] ) )
         cursor.close()
         self.conn.commit()
         
     def remove(self, uid):
         cursor = self.connect()
-        cursor.execute( "DELETE FROM inventory WHERE id = {}".format( uid ) )
+        cursor.execute( """DELETE FROM inventory WHERE id = {}""".format( uid ) )
         cursor.close()
         self.conn.commit()
 
@@ -54,7 +54,7 @@ class database(object):
 
     def get_item(self, uid):
         cursor = self.connect()
-        tmp = cursor.execute( "Select * from inventory where id = {}".format( uid ) )
+        tmp = cursor.execute( """Select * from inventory where id = {}""".format( uid ) )
         self.conn.commit()
         tmp = tmp.fetchall()
         cursor.close()
@@ -91,7 +91,7 @@ class database(object):
     def add_category(self, category):
         """add a new category"""
         cursor = self.connect()
-        cursor.execute( "INSERT INTO categories(category) VALUES ('{}')".format( category ))
+        cursor.execute( """INSERT INTO categories(category) VALUES ("{}")""".format( category ))
         cursor.close()
         self.conn.commit()
 
@@ -105,7 +105,7 @@ class database(object):
     def update_category(self, uid, name):
         """Update the category"""
         cursor = self.connect()
-        cursor.execute( "UPDATE categories SET category='{}' WHERE id={}".format( name, uid ) )
+        cursor.execute( """UPDATE categories SET category="{}" WHERE id={}""".format( name, uid ) )
         cursor.close()
         self.conn.commit()
 
