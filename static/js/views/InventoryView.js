@@ -82,7 +82,6 @@ firebird.InventoryView = Backbone.View.extend({
 
       // "move item" links
       self.$el.find(".moveItemLink").click(function(e) {
-      console.log(1);
         e.preventDefault();
 
         var div = $("<div class='popupMenu'></div>"), itemID = $(this).data("item-id");
