@@ -20,21 +20,27 @@ firebird.ItemView = Backbone.View.extend({
     setTimeout(function() {
       // "add to cart" form
       self.$("#addToCartForm").submit(function(e) {
-        var item = firebird.cart.where({ itemID: self.id })[0];
+        e.preventDefault();
+
+        var item = firebird.cart.where({ itemID: self.id })[0], inCart = item ? item.get("count") : 0,
+            adding = parseInt(self.$("#addQuantity").val());
+
+        if (inCart + adding > firebird.inventory.get(self.id).get("quantity")) {
+          Notifier.error("Not enough items in stock.");
+          return;
+        }
 
         if (item) {
-          item.incrementCount(parseInt(self.$("#addQuantity").val()));
+          item.incrementCount(adding);
         }
         else {
           firebird.cart.add(new firebird.CartItem({
             itemID: self.id,
-            count: parseInt(self.$("#addQuantity").val())
+            count: adding
           }));
         }
 
         Notifier.success("\"" + firebird.inventory.get(self.id).get("name") + "\" added to cart.");
-
-        e.preventDefault();
       });
     }, 10);
 

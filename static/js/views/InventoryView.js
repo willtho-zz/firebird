@@ -82,36 +82,42 @@ firebird.InventoryView = Backbone.View.extend({
 
       // "move item" links
       self.$el.find(".moveItemLink").click(function(e) {
+      console.log(1);
         e.preventDefault();
 
-        var div = $("<span class='popupMenu'><ul></ul></span>"), itemID = $(this).data("item-id"),
-            ul = div.find("ul");
+        var div = $("<div class='popupMenu'></div>"), itemID = $(this).data("item-id");
 
         firebird.categories.each(function(category) {
           var categoryID = category.get("id");
-          ul.append("<li><a href='' class='dark'>" + category.get("name") + "</a></li>")
-            .find("a").last().click(function(e) {
-              e.preventDefault();
+          div.append("<a href='' class='dark'>" + category.get("name") + "</a><br>")
+             .find("a").last().click(function(e) {
+               e.preventDefault();
 
-              var item = _.clone(firebird.inventory.get(itemID));
-              item.category = categoryID;
+               var item = _.clone(firebird.inventory.get(itemID));
+               item.category = categoryID;
 
-              firebird.inventory.get(itemID).save({ category: categoryID }, {
-                success: function() { Notifier.success("Item moved."); },
-                error: function() {
-                  Notifier.error("Could not move item.");
-                  firebird.inventory.trigger("reset");
-                }
-              });
-            });
+               firebird.inventory.get(itemID).save({ category: categoryID }, {
+                 success: function() {
+                   Notifier.success("Item moved.");
+                   div.hide().detach();
+                 },
+                 error: function() {
+                   Notifier.error("Could not move item.");
+                   firebird.inventory.trigger("reset");
+                   div.hide().detach();
+                 }
+               });
+             });
         });
+
+        div.find("br").last().remove();
 
         div.mouseleave(function() {
           div.hide().detach();
         });
 
         $("body").append(div);
-        div.position({ my: "left top", at: "left top", of: this });
+        div.width(80).position({ my: "left top", at: "left top", of: this });
       });
     }, 10);
 

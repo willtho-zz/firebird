@@ -49,6 +49,17 @@ div.padded {
   padding: 1.5em;
 }
 
+div.popupMenu {
+  background-color: #ffffff;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #3a0a5c;
+  padding: 2px;
+  box-shadow: 0px 0px 14px #404040;
+  -moz-box-shadow: 0px 0px 14px #404040;
+  -webkit-box-shadow: 0px 0px 14px #404040;
+}
+
 div.relative {
   position: relative;
 }
@@ -80,9 +91,6 @@ img.item-preview {
 
 p.item-description {
   font-size: 14px;
-}
-
-span.popupMenu {
 }
 
 .align-right {
