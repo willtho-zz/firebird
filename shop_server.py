@@ -9,9 +9,9 @@ app.secret_key = 'jklsdhafuiasrm,asdf,mbjk'
 UPLOAD_FOLDER = 'uploaded_file'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-db = db_driver.database('test.db')
+db = db_driver.database('shop.db')
 #replace with code to make sure the schemas match
-if not os.path.exists( 'test.db' ):
+if not os.path.exists( 'shop.db' ):
     db.setup()
     
 @app.route("/favicon.ico")
