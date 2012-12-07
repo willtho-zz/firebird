@@ -44,13 +44,13 @@ firebird.InventoryView = Backbone.View.extend({
     // set up event handlers
     setTimeout(function() {
       // "remove" link
-      self.$el.find("#removeSearch").click(function(e) {
+      self.$("#removeSearch").click(function(e) {
         firebird.router.navigate("shop/" + self.category + "/p1", { trigger: true });
         e.preventDefault();
       });
 
       // page links
-      self.$el.find(".navPage").click(function(e) {
+      self.$(".navPage").click(function(e) {
         // construct the url based on whether a search is active and the link's page
         var url = self.query ? "search/" + self.query : "shop";
         url += "/" + self.category + "/p" + $(this).data("page");
@@ -60,13 +60,13 @@ firebird.InventoryView = Backbone.View.extend({
       });
 
       // item links
-      self.$el.find(".itemLink").click(function(e) {
+      self.$(".itemLink").click(function(e) {
         firebird.router.navigate("item/" + $(this).data("item-id"), { trigger: true });
         e.preventDefault();
       });
 
       // "delete item" links
-      self.$el.find(".deleteItemLink").click(function(e) {
+      self.$(".deleteItemLink").click(function(e) {
         e.preventDefault();
 
         $.ajax("/api/inventory/" + $(this).data("item-id"), {
@@ -81,7 +81,7 @@ firebird.InventoryView = Backbone.View.extend({
       });
 
       // "move item" links
-      self.$el.find(".moveItemLink").click(function(e) {
+      self.$(".moveItemLink").click(function(e) {
         e.preventDefault();
 
         var div = $("<div class='popupMenu'></div>"), itemID = $(this).data("item-id");
@@ -117,6 +117,41 @@ firebird.InventoryView = Backbone.View.extend({
 
         $("body").append(div);
         div.width(80).position({ my: "left top", at: "left top", of: this });
+      });
+
+      // "add item" link
+      self.$("#addItemLink").click(function(e) {
+        e.preventDefault();
+
+        var dialog = firebird.modalDialog2("Add Item",
+          "Name: <input id='itemName'><br>" +
+          "Description: <input id='itemDescription'><br>" +
+          "Category: <select id='itemCategory'></select><br>" +
+          "Price: <input id='itemPrice'><br>" +
+          "Sale Price: <input id='itemSalePrice'><br>" +
+          "Quantity: <input id='itemQuantity'>",
+          {
+            Add: function() {
+              firebird.inventory.create({
+                name: dialog.find("#itemName").val(),
+                description: dialog.find("#itemDescription").val(),
+                price: parseFloat(dialog.find("#itemPrice").val()),
+                salePrice: parseFloat(dialog.find("#itemSalePrice").val()),
+                quantity: parseInt(dialog.find("#itemQuantity").val())
+              }, {
+                success: function() {
+                  Notifier.success("Item added.");
+                  firebird.inventory.fetch();
+                },
+                error: function() {
+                  Notifier.error("Could not add item.");
+                }
+              });
+            },
+            Cancel: function() {
+              dialog.dialog("close");
+            }
+          });
       });
     }, 10);
 

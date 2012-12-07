@@ -229,7 +229,12 @@
       <div class="span-1 last">&nbsp;</div>
     </script>
     <script id="inventoryViewTemplate" type="text/template">
-      <h2 class="title"><%= category %></h2>
+      <h2 class="title">
+        <%= category %>
+        <% if (admin) { %>
+          <a href="" id="addItemLink"><img src="/static/img/add.jpg" style="height: 20px; width: 20px;"></a>
+        <% } %>
+      </h2>
       <% if (query) { %>
         <div class='info'>
           Using filter "<%= query %>"
