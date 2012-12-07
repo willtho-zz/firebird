@@ -34,9 +34,15 @@ firebird.CartView = Backbone.View.extend({
 
           // find the item in the cart and get the new count
           var item = firebird.cart.where({ itemID: id })[0],
+              invItem = firebird.inventory.get(item.get("itemID")),
               count = parseInt($(this).val());
 
-          if (count > 0)
+          // make sure there are enough items in the inventory
+          if (count > invItem.get("quantity")) {
+            Notifier.error("Not enough of item \"" + invItem.get("name") + "\" in stock.");
+            $(this).val(item.get("count"));
+          }
+          else if (count > 0)
             item.set("count", count);
           else
             // if count <= 0, remove the item
