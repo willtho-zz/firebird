@@ -124,17 +124,24 @@ firebird.InventoryView = Backbone.View.extend({
         e.preventDefault();
 
         var dialog = firebird.modalDialog2("Add Item",
-          "Name: <input id='itemName'><br>" +
+          /*"Name: <input id='itemName'><br>" +
           "Description: <input id='itemDescription'><br>" +
           "Category: <select id='itemCategory'></select><br>" +
           "Price: <input id='itemPrice'><br>" +
           "Sale Price: <input id='itemSalePrice'><br>" +
-          "Quantity: <input id='itemQuantity'>",
+          "Quantity: <input id='itemQuantity'>",*/
+          "<table><tr><td>Name:</td><td><input id='itemName'></td></tr>" +
+          "<tr><td>Description:</td><td><input id='itemDescription'></td></tr>" +
+          "<tr><td>Category:</td><td><select id='itemCategory'></select></td></tr>" +
+          "<tr><td>Price:</td><td><input id='itemPrice'></td></tr>" +
+          "<tr><td>Sale Price:</td><td><input id='itemSalePrice'></td></tr>" +
+          "<tr><td>Quantity:</td><td><input id='itemQuantity'></td></tr></table>",
           {
             Add: function() {
               firebird.inventory.create({
                 name: dialog.find("#itemName").val(),
                 description: dialog.find("#itemDescription").val(),
+                category: dialog.find("#itemCategory").val(),
                 price: parseFloat(dialog.find("#itemPrice").val()),
                 salePrice: parseFloat(dialog.find("#itemSalePrice").val()),
                 quantity: parseInt(dialog.find("#itemQuantity").val())
@@ -142,9 +149,11 @@ firebird.InventoryView = Backbone.View.extend({
                 success: function() {
                   Notifier.success("Item added.");
                   firebird.inventory.fetch();
+                  dialog.dialog("close");
                 },
                 error: function() {
                   Notifier.error("Could not add item.");
+                  dialog.dialog("close");
                 }
               });
             },
@@ -152,6 +161,11 @@ firebird.InventoryView = Backbone.View.extend({
               dialog.dialog("close");
             }
           });
+
+        firebird.categories.each(function(category) {
+          dialog.find("#itemCategory").append("<option value='" + category.get("id") +
+                                              "'>" + category.get("name") + "</option>");
+        });
       });
     }, 10);
 
