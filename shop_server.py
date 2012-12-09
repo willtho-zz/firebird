@@ -3,9 +3,11 @@ from werkzeug import secure_filename
 import db_driver
 import smtplib
 import os
+import copy
+
 app = Flask(__name__)
 
-app.secret_key = 'jklsdhafuiasrm,asdf,mbjk'
+app.secret_key = os.urandom( 24 )
 UPLOAD_FOLDER = 'uploaded_file'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -13,7 +15,9 @@ db = db_driver.database('shop.db')
 #replace with code to make sure the schemas match
 if not os.path.exists( 'shop.db' ):
     db.setup()
-    
+
+adminname = 'johndoe'
+
 @app.route("/favicon.ico")
 def icon():
     """Return a redirect to the favicon"""
@@ -131,13 +135,19 @@ def get_items(uid=None):
 
 @app.route("/checkout", methods=['POST'])
 def checkout():
-    adminemail = ""
-    useremail = ""
+    adminemail = db.get_email( adminname )
+    
+    username = request.json['email']
+
+    print request.json
+
     for item in request.json['items']:
         olditem = db.get_item( item['id'] )
-        newitem = olditem
+        newitem = copy.deepcopy( olditem )
         newitem['quantity'] = olditem['quantity'] - item['quantity']
         db.edit( newitem['id'], newitem )
+
+    
 
     mailserve = smtplib.SMTP( 'localhost' )
     mailserve.set_debuglevel( 1 )

@@ -117,3 +117,11 @@ class database(object):
         tmp = tmp[0]
         return {"id": tmp[0], "name": tmp[1]}
 
+    def get_email(self, username):
+        """Return the email of the user"""
+        cursor = self.connect()
+        tmp = cursor.execute( """SELECT email FROM users WHERE username="{}" """.format( username ) )
+        tmp = tmp.fetchall()
+        tmp = tmp[0][0]
+        return tmp
+        
