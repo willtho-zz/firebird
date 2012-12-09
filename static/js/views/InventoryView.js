@@ -124,12 +124,6 @@ firebird.InventoryView = Backbone.View.extend({
         e.preventDefault();
 
         var dialog = firebird.modalDialog2("Add Item",
-          /*"Name: <input id='itemName'><br>" +
-          "Description: <input id='itemDescription'><br>" +
-          "Category: <select id='itemCategory'></select><br>" +
-          "Price: <input id='itemPrice'><br>" +
-          "Sale Price: <input id='itemSalePrice'><br>" +
-          "Quantity: <input id='itemQuantity'>",*/
           "<table><tr><td>Name:</td><td><input id='itemName'></td></tr>" +
           "<tr><td>Description:</td><td><input id='itemDescription'></td></tr>" +
           "<tr><td>Category:</td><td><select id='itemCategory'></select></td></tr>" +
