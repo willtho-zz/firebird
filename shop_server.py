@@ -95,9 +95,13 @@ def checklogin():
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
+@app.route("/css/<folder>/<name>")
 @app.route("/css/<name>")
-def css(name):
-    return redirect( url_for( "static", filename='css/{}'.format(name ) ) )
+def css(name, folder=None):
+    if folder != None:
+        return redirect( url_for( "static", filename='css/{}/{}'.format( folder, name ) ) )
+    else:
+        return redirect( url_for( "static", filename='css/{}'.format( name ) ) )
 
 @app.route("/js/<name>")
 @app.route("/js/<folder>/<name>")
