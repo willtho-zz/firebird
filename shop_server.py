@@ -4,13 +4,15 @@ import db_driver
 import smtplib
 import os
 import copy
+import ConfigParser
 
 app = Flask(__name__)
 
+config = ConfigParser.ConfigParser()
+config.read( 'shop.cfg' )
 
-#CONFIG OPTIONS
-adminname = 'johndoe'
-dbname = 'shop.db'
+dbname = config.get( 'shop', 'dbname' )
+username = config.get( 'shop', 'username' )
 
 app.secret_key = os.urandom( 24 )
 UPLOAD_FOLDER = 'static/img'
