@@ -154,9 +154,10 @@ Linux/Mac:
     
     		pip install flask
 
-	Using database load script:
 
-    		sqlite3 shop.db < loaddatabase.sql
+        Configure
+
+                python setup.py
 
 Start
 =====
