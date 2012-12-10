@@ -8,7 +8,7 @@ import copy
 app = Flask(__name__)
 
 app.secret_key = os.urandom( 24 )
-UPLOAD_FOLDER = 'uploaded_file'
+UPLOAD_FOLDER = 'static/img'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 db = db_driver.database('shop.db')
@@ -48,24 +48,15 @@ def get_categories(uid=None):
 
     return index()
 
-@app.route("/upload", methods=['GET', 'POST'])
-def upload():
+@app.route("/upload/<uid>", methods=['POST'])
+def upload(uid):
     if request.method == 'POST':
         tmpfile = request.files['file']
         if tmpfile:
-            filename = secure_filename( tmpfile.filename )  
+            filename = "item{}.png".format( uid )
             tmpfile.save( os.path.join( app.config['UPLOAD_FOLDER'], filename ) )
             return redirect( url_for( 'uploaded_file', filename=filename ) )
 
-    return '''
-        <!doctype html>
-        <title>Upload new File</title>
-        <h1>Upload new File</h1>
-        <form action="" method=post enctype=multipart/form-data>
-        <p><input type=file name=file>
-        <input type=submit value=Upload>
-        </form>
-        '''
 
 @app.route('/login', methods=['POST'])
 def login():
