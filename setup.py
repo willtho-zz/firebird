@@ -57,6 +57,15 @@ def main():
     with open( 'shop.cfg', 'wb') as fh:
         config.write( fh )
 
+
+    if preload == "y":
+        
+        with open( "loaditems.sql", "r" ) as fh:
+            for line in fh:
+                cur = db.connect()
+                cur.execute( """ {} """.format( line ) )
+                db.conn.commit()
+                cur.close()
     
 
 if __name__ == '__main__':

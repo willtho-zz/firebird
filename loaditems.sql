@@ -1,6 +1,3 @@
-CREATE TABLE inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, name unique, category integer, quantity integer, price real, salePrice real, description text);
-CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname text, lastname text, username unique, password text, email text, admin boolean);
-CREATE TABLE categories (id INTEGER PRIMARY KEY AUTOINCREMENT, category text);
 INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('Hat and Wand Combo', 2, 7, 22.45, 22.45, 'Can''t really have one without the other... Am I right?');
 INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('Anything is Possible Bottle', 1, 3, 11.9, 10.9, 'A bottle, where anything is possible.');
 INSERT INTO inventory(name, category, quantity, price, salePrice, description) VALUES('Confetti Wand', 3, 7, 10.12, 10.12, 'A wand that explodes with confetti.');
@@ -47,4 +44,3 @@ INSERT INTO categories(category) VALUES ('DVDS');
 INSERT INTO categories(category) VALUES ('Books');
 INSERT INTO categories(category) VALUES ('Cards');
 INSERT INTO categories(category) VALUES ('Other');
-INSERT INTO users(firstname, lastname, username, password, email, admin) VALUES('John', 'Doe', 'johndoe', 'mypassword', 'johndoe@example.com', 1);
