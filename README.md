@@ -8,6 +8,7 @@ Documents inculded in Disc
 
 		db_driver.py
 		shop_server.py
+                setup.py()
 
 	SQL Files:
 
@@ -124,7 +125,7 @@ Documents inculded in Disc
 Installation
 ============
 
-Install Python 2.7
+Install Python 2.7.3
 	
 	- http://www.python.org/getit/	
 
@@ -154,6 +155,10 @@ Linux/Mac:
     
     		pip install flask
 
+        Install and start sendmail
+                
+                apt-get install sendmail
+                service sendmail start
 
         Configure
 
