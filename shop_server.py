@@ -12,7 +12,7 @@ config = ConfigParser.ConfigParser()
 config.read( 'shop.cfg' )
 
 dbname = config.get( 'shop', 'dbname' )
-username = config.get( 'shop', 'username' )
+adminusername = config.get( 'shop', 'username' )
 
 app.secret_key = os.urandom( 24 )
 UPLOAD_FOLDER = 'static/img'
@@ -175,18 +175,15 @@ def get_items(uid=None):
 
 @app.route("/checkout", methods=['POST'])
 def checkout():
-    adminemail = db.get_email( adminname )
-    
-    useremail = request.json['email']
 
+    adminemail = db.get_email( adminusername )    
+    useremail = request.json['email']
 
     for item in request.json['items']:
         olditem = db.get_item( item['id'] )
         newitem = copy.deepcopy( olditem )
         newitem['quantity'] = olditem['quantity'] - item['quantity']
-        db.edit( newitem['id'], newitem )
-
-    
+        db.edit( newitem['id'], newitem )    
 
     mailserve = smtplib.SMTP( 'localhost' )
     mailserve.set_debuglevel( 1 )
