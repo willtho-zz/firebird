@@ -192,7 +192,7 @@ def checkout():
         db.edit( newitem['id'], newitem )
         
     
-    msgtemplate = "Item: {}\n\tQuantity: {}\n\tPrice: {}"
+    msgtemplate = "Item: {}\n\tQuantity: {}\n\tPrice: {}\n"
 
     msg = request.json['items']
     msg = [db.get_item( x['id'] ) for x in msg]
@@ -200,7 +200,7 @@ def checkout():
     print msg
 
     mailserve = smtplib.SMTP( 'localhost' )
-    mailserve.sendmail( adminemail, [useremail, adminemail], "From: {admin}\r\nTo: {admin}, {user}\r\nSubject: Purchase\r\n\r\n You purchased the following items:\n\n{message}\n\n Total = ${itemtotal}\n Thank you!!\nJames Magic Shop".format( admin=adminemail, user=useremail, itemtotal=total, message=''.join( msg ) ) )
+    mailserve.sendmail( adminemail, [useremail, adminemail], "From: {admin}\r\nTo: {admin}, {user}\r\nSubject: Purchase\r\n\r\n You purchased the following items:\n\n{message}\n Total = ${itemtotal}\n Thank you!!\nJames Magic Shop".format( admin=adminemail, user=useremail, itemtotal=total, message=''.join( msg ) ) )
     mailserve.quit()
 
     return "Success"
