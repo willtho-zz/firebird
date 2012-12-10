@@ -124,4 +124,11 @@ class database(object):
         tmp = tmp.fetchall()
         tmp = tmp[0][0]
         return tmp
-        
+
+    def isAdmin( self, username ):
+        """Return true for a user being an admin"""
+        cursor = self.connect()
+        tmp = cursor.execute( """SELECT admin FROM users WHERE username="{}" """.format( username ) )
+        tmp = tmp.fetchall()
+        tmp = tmp[0][0]
+        return bool( tmp )
