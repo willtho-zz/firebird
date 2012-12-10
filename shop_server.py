@@ -178,16 +178,30 @@ def checkout():
 
     adminemail = db.get_email( adminusername )    
     useremail = request.json['email']
+    total = 4.0
+
 
     for item in request.json['items']:
         olditem = db.get_item( item['id'] )
         newitem = copy.deepcopy( olditem )
+        total += olditem['salePrice'] * item['quantity']
+        total += 1
+        if olditem['quantity'] < item['quantity']:
+            return "Fail"
         newitem['quantity'] = olditem['quantity'] - item['quantity']
-        db.edit( newitem['id'], newitem )    
+        db.edit( newitem['id'], newitem )
+        
+    
+    msgtemplate = "Item: {}\n\tQuantity: {}\n\tPrice: {}"
+
+    msg = request.json['items']
+    msg = [db.get_item( x['id'] ) for x in msg]
+    msg = [msgtemplate.format( x['name'], x['quantity'], x['salePrice'] ) for x in msg]
+    print msg
 
     mailserve = smtplib.SMTP( 'localhost' )
     mailserve.set_debuglevel( 1 )
-    mailserve.sendmail( adminemail, [useremail, adminemail], "From: {admin}\r\nTo: {admin}, {user}\r\nSubject: Purchase\r\n\r\n Thank you!".format( admin=adminemail, user=useremail ) )
+    mailserve.sendmail( adminemail, [useremail, adminemail], "From: {admin}\r\nTo: {admin}, {user}\r\nSubject: Purchase\r\n\r\n You purchased the following items:\n\n{message}\n\n Total = ${itemtotal}\n Thank you!!\nJames Magic Shop".format( admin=adminemail, user=useremail, itemtotal=total, message=''.join( msg ) ) )
     mailserve.quit()
 
     return "Success"
