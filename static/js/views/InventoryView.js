@@ -130,7 +130,7 @@ firebird.InventoryView = Backbone.View.extend({
           "<tr><td>Price:</td><td><input id='itemPrice'></td></tr>" +
           "<tr><td>Sale Price:</td><td><input id='itemSalePrice'></td></tr>" +
           "<tr><td>Quantity:</td><td><input id='itemQuantity'></td></tr>" +
-          "<tr><td>Image:</td><td><input type='file' id='itemImage'></td></tr></table>",
+          "<tr><td>Image:</td><td><input type='file' id='itemImage' name='file'></td></tr></table>",
           {
             Add: function() {
               firebird.inventory.create({
@@ -146,19 +146,10 @@ firebird.InventoryView = Backbone.View.extend({
                   firebird.inventory.fetch({
                     success: function() {
                       var id = firebird.inventory.last().get("id"),
-                          fd = new FormData();
-
-                      fd.append("file", $("#itemImage")[0].files[0]);
-                      $.ajax({
-                        url: "/upload/" + id,
-                        data: fd,
-                        processData: false,
-                        contentType: "multipart/form-data",
-                        type: "POST",
-                        success: function() {
-                          Notifier.success("Item added.");
-                          dialog.dialog("close");
-                        }
+                          form = $("<form action='/upload/" + id + "' method='post' enctype='multipart/form-data'></form");
+                      form.append($("#itemImage")).ajaxSubmit(function() {
+                        Notifier.success("Item added.");
+                        dialog.dialog("close");
                       });
                     }
                   });
