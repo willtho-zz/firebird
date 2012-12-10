@@ -40,7 +40,6 @@ def get_categories(uid=None):
                 pass
         elif request.method == 'PUT':
             try:
-                print session['username']
                 if db.isAdmin( session['username'] ):
                     #update category
                     db.update_category( uid, request.json['name'])
@@ -166,7 +165,6 @@ def checkout():
     
     username = request.json['email']
 
-    print request.json
 
     for item in request.json['items']:
         olditem = db.get_item( item['id'] )
