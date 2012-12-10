@@ -58,7 +58,7 @@ def get_categories(uid=None):
             return '[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']'
         elif request.method == 'POST':
             try:
-                if db.isAdmin( sessions['username'] ):
+                if db.isAdmin( session['username'] ):
                     #add category
                     db.add_category( request.json['name'])
             except:
