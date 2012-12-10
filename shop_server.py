@@ -175,7 +175,7 @@ def get_items(uid=None):
 def checkout():
     adminemail = db.get_email( adminname )
     
-    username = request.json['email']
+    useremail = request.json['email']
 
 
     for item in request.json['items']:

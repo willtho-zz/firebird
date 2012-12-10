@@ -29,7 +29,7 @@ firebird.CheckoutView = Backbone.View.extend({
         $.ajax("/checkout", {
           contentType: "application/json",
           data: JSON.stringify({
-            email: "",
+            email: self.$("#email").val(),
             items: firebird.cart.map(function(item) {
               return { id: item.get("itemID"), quantity: item.get("count") };
             })
@@ -38,6 +38,7 @@ firebird.CheckoutView = Backbone.View.extend({
           success: function() {
             firebird.inventory.fetch();
             Notifier.success("Order completed");
+            firebird.router.navigate("", { trigger: true });
           }
         });
       });
