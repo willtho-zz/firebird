@@ -40,10 +40,12 @@ def get_categories(uid=None):
                 pass
         elif request.method == 'PUT':
             try:
-                if isAdmin( session['username']:
+                if isAdmin( session['username'] ):
                     #update category
                     db.update_category( uid, request.json['name'])
                     return jsonify( db.get_category( uid ) )
+            except:
+                pass
     else:
         if request.method == 'GET':
             #get all categories
@@ -53,6 +55,10 @@ def get_categories(uid=None):
                 if isAdmin( sessions['username'] ):
                     #add category
                     db.add_category( request.json['name'])
+            except:
+                pass
+
+
 
     return index()
 
@@ -138,7 +144,7 @@ def get_items(uid=None):
 
         elif request.method == 'PUT':
             try:
-                if isAdmin( session['username'] _
+                if isAdmin( session['username'] ):
                     #edit an item
                     db.edit( uid, request.json )
                     return ('', 200)
