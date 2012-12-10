@@ -200,7 +200,6 @@ def checkout():
     print msg
 
     mailserve = smtplib.SMTP( 'localhost' )
-    mailserve.set_debuglevel( 1 )
     mailserve.sendmail( adminemail, [useremail, adminemail], "From: {admin}\r\nTo: {admin}, {user}\r\nSubject: Purchase\r\n\r\n You purchased the following items:\n\n{message}\n\n Total = ${itemtotal}\n Thank you!!\nJames Magic Shop".format( admin=adminemail, user=useremail, itemtotal=total, message=''.join( msg ) ) )
     mailserve.quit()
 
@@ -217,5 +216,5 @@ def index(path=None, uid=None):
     return render_template('index.html', categories='[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']', item=tmpitem, logged_in=checklogin())
 
 if __name__ == '__main__':
-    app.debug = True
+    app.debug = False
     app.run(host="0.0.0.0")
