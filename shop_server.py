@@ -7,16 +7,20 @@ import copy
 
 app = Flask(__name__)
 
+
+#CONFIG OPTIONS
+adminname = 'johndoe'
+dbname = 'shop.db'
+
 app.secret_key = os.urandom( 24 )
 UPLOAD_FOLDER = 'static/img'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-db = db_driver.database('shop.db')
+db = db_driver.database(dbname)
 #replace with code to make sure the schemas match
-if not os.path.exists( 'shop.db' ):
+if not os.path.exists( dbname ):
     db.setup()
 
-adminname = 'johndoe'
 
 @app.route("/favicon.ico")
 def icon():
@@ -74,6 +78,14 @@ def upload(uid):
                     return redirect( url_for( 'uploaded_file', filename=filename ) )
         except:
             pass
+
+@app.route("/static/img/<name>")
+def image(name):
+    if os.path.exists( os.path.join( os.getcwd(), 'static/img/{}'.format( name ) ) ):
+        return send_from_directory( "static", filename='img/{}'.format( name ) ) 
+    else:
+        return send_from_directory( "static", "img/item1000.png" )
+
 
 @app.route('/login', methods=['POST'])
 def login():
