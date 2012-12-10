@@ -132,3 +132,10 @@ class database(object):
         tmp = tmp.fetchall()
         tmp = tmp[0][0]
         return bool( tmp )
+
+    def adduser( self, firstname, lastname, username, password, email, admin ):
+        """Add a user"""
+        cursor = self.connect()
+        tmp = cursor.execute( """INSERT INTO users(firstname, lastname, username, password, email, admin) VALUES("{}", "{}", "{}", "{}", "{}", {})""".format( firstname, lastname, username, password, email, admin ) )
+        self.conn.commit()
+        cursor.close()
