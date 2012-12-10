@@ -38,6 +38,7 @@ firebird.CheckoutView = Backbone.View.extend({
           success: function() {
             firebird.inventory.fetch();
             Notifier.success("Order completed");
+            firebird.cart.reset();
             firebird.router.navigate("", { trigger: true });
           }
         });
