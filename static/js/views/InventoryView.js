@@ -129,7 +129,8 @@ firebird.InventoryView = Backbone.View.extend({
           "<tr><td>Category:</td><td><select id='itemCategory'></select></td></tr>" +
           "<tr><td>Price:</td><td><input id='itemPrice'></td></tr>" +
           "<tr><td>Sale Price:</td><td><input id='itemSalePrice'></td></tr>" +
-          "<tr><td>Quantity:</td><td><input id='itemQuantity'></td></tr></table>",
+          "<tr><td>Quantity:</td><td><input id='itemQuantity'></td></tr>" +
+          "<tr><td>Image:</td><td><input type='file' id='itemImage'></td></tr></table>",
           {
             Add: function() {
               firebird.inventory.create({
@@ -141,9 +142,26 @@ firebird.InventoryView = Backbone.View.extend({
                 quantity: parseInt(dialog.find("#itemQuantity").val())
               }, {
                 success: function() {
-                  Notifier.success("Item added.");
-                  firebird.inventory.fetch();
-                  dialog.dialog("close");
+                  // upload the image
+                  firebird.inventory.fetch({
+                    success: function() {
+                      var id = firebird.inventory.last().get("id"),
+                          fd = new FormData();
+
+                      fd.append("file", $("#itemImage")[0].files[0]);
+                      $.ajax({
+                        url: "/upload/" + id,
+                        data: fd,
+                        processData: false,
+                        contentType: "multipart/form-data",
+                        type: "POST",
+                        success: function() {
+                          Notifier.success("Item added.");
+                          dialog.dialog("close");
+                        }
+                      });
+                    }
+                  });
                 },
                 error: function() {
                   Notifier.error("Could not add item.");
