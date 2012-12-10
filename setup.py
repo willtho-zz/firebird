@@ -22,6 +22,7 @@ def main():
 
     #get email
     email = raw_input( "Enter email: " )
+    email.replace( '@', '\@' )
 
     #get database name
     dbname = raw_input( "Enter database name: " )
@@ -48,6 +49,13 @@ def main():
     db.adduser( firstname, lastname, username, password, email, admin )
 
     #write to config dbname and username
+    config = ConfigParser.RawConfigParser()
+    config.add_section('shop')
+    config.set('shop', 'username', username)
+    config.set('shop', 'dbname', dbname )
+
+    with open( 'shop.cfg', 'wb') as fh:
+        config.write( fh )
 
     
 
