@@ -120,7 +120,15 @@ Documents inculded in Disc
 			jquery-ui.css
 			style.css
 
-	
+	Documentation:
+		
+		System Requirements Document
+		System Design Document
+		UI Design Document
+		Code Inspection Report
+		Testing Report
+		Administrator Manual	
+
 
 Installation
 ============
