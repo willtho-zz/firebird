@@ -33,14 +33,15 @@ def get_categories(uid=None):
             return jsonify( db.get_category( uid ) ) 
         elif request.method == 'DELETE':
             try:
-                if isAdmin( session['username'] ):
+                if db.isAdmin( session['username'] ):
                     #delete category
                     db.del_category( uid )
             except:
                 pass
         elif request.method == 'PUT':
             try:
-                if isAdmin( session['username'] ):
+                print session['username']
+                if db.isAdmin( session['username'] ):
                     #update category
                     db.update_category( uid, request.json['name'])
                     return jsonify( db.get_category( uid ) )
@@ -52,7 +53,7 @@ def get_categories(uid=None):
             return '[' + ','.join([jsonify(x).data for x in db.get_categories()]) + ']'
         elif request.method == 'POST':
             try:
-                if isAdmin( sessions['username'] ):
+                if db.isAdmin( sessions['username'] ):
                     #add category
                     db.add_category( request.json['name'])
             except:
@@ -126,7 +127,7 @@ def get_items(uid=None):
             return '[' + ','.join([jsonify(x).data for x in db.get_items()]) + ']'
         elif request.method == 'POST':
             try:
-                if isAdmin( session['username'] ):
+                if db.isAdmin( session['username'] ):
                     #add new item
                     db.add( request.json )
                     return ('', 200)
@@ -135,7 +136,7 @@ def get_items(uid=None):
     else:
         if (request.method == 'DELETE'):
             try:
-                if isAdmin( session['username'] ):
+                if db.isAdmin( session['username'] ):
                     #delete an item
                     db.remove( uid )
                     return ('', 200)
@@ -144,7 +145,7 @@ def get_items(uid=None):
 
         elif request.method == 'PUT':
             try:
-                if isAdmin( session['username'] ):
+                if db.isAdmin( session['username'] ):
                     #edit an item
                     db.edit( uid, request.json )
                     return ('', 200)
