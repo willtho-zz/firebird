@@ -66,35 +66,16 @@ def get_categories(uid=None):
 
     return index()
 
-#@app.route("/upload/<uid>", methods=['POST'])
-#def upload(uid):
-#    if request.method == 'POST':
-#        try:
-#            if db.isAdmin( session['username'] ):
-#                tmpfile = request.files['file']
-#                if tmpfile:
-#                    filename = "item{}.png".format( uid )
-#                    tmpfile.save( os.path.join( app.config['UPLOAD_FOLDER'], filename ) )
-#                    return redirect( url_for( 'uploaded_file', filename=filename ) )
-#        except:
-#            pass
-
 @app.route("/upload/<uid>", methods=['POST'])
 def upload(uid):
     if request.method == 'POST':
         try:
             if db.isAdmin( session['username'] ):
-                print "isAdmin = true"
-                print request
                 tmpfile = request.files['file']
-                print 123
                 if tmpfile:
-                    print "tmpfile = true"
                     filename = "item{}.png".format( uid )
                     tmpfile.save( os.path.join( app.config['UPLOAD_FOLDER'], filename ) )
                     return redirect( url_for( 'uploaded_file', filename=filename ) )
-                else:
-                    print "tmpfile = false"
         except:
             pass
 
