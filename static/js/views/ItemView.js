@@ -68,9 +68,14 @@ firebird.ItemView = Backbone.View.extend({
                 quantity: parseInt(dialog.find("#itemQuantity").val())
               }, {
                 success: function() {
-                  Notifier.success("Item edit.");
+                  Notifier.success("Item edited.");
                   firebird.inventory.fetch();
                   dialog.dialog("close");
+
+                  // refresh the page
+                  var url = location.pathname;
+                  firebird.router.navigate("/edit", { replace: true });
+                  firebird.router.navigate(url, { trigger: true, replace: true });
                 },
                 error: function() {
                   Notifier.error("Could not edit item.");
@@ -92,8 +97,8 @@ firebird.ItemView = Backbone.View.extend({
         dialog.find("#itemName").val(item.get("name"));
         dialog.find("#itemDescription").val(item.get("description"));
         dialog.find("#itemCategory").val(item.get("category"));
-        dialog.find("#itemPrice").val(item.get("price"));
-        dialog.find("#itemSalePrice").val(item.get("salePrice"));
+        dialog.find("#itemPrice").val(item.get("price").toFixed(2));
+        dialog.find("#itemSalePrice").val(item.get("salePrice").toFixed(2));
         dialog.find("#itemQuantity").val(item.get("quantity"));
         });
       });
