@@ -158,6 +158,13 @@ Linux/Mac:
 
     		sqlite3 shop.db < loaddatabase.sql
 
+Start
+=====
+
+To start the server (as root):
+
+    python shop_server.py
+
 
 Contact
 =======
